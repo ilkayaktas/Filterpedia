@@ -16,12 +16,12 @@ import CoreImage
 
 class BayerDitherFilter: CIFilter
 {
-    var inputImage: CIImage?
-    var inputIntensity = CGFloat(5.0)
-    var inputMatrix = CGFloat(8.0)
-    var inputPalette = CGFloat(0.0)
+    @objc var inputImage: CIImage?
+    @objc var inputIntensity = CGFloat(5.0)
+    @objc var inputMatrix = CGFloat(8.0)
+    @objc var inputPalette = CGFloat(0.0)
     
-    override var attributes: [String : AnyObject]
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "Bayer Dither Filter",
@@ -59,18 +59,18 @@ class BayerDitherFilter: CIFilter
                 kCIAttributeType: kCIAttributeTypeScalar]]
     }
     
-    override var outputImage: CIImage!
+    override var outputImage: CIImage?
     {
-        let CIKernel_DitherBayer = NSBundle.mainBundle().pathForResource("DitherBayer", ofType: "cikernel")
+        let CIKernel_DitherBayer = Bundle.main.path(forResource: "DitherBayer", ofType: "cikernel")
         
         guard let path = CIKernel_DitherBayer,
-            code = try? String(contentsOfFile: path),
-            ditherKernel = CIColorKernel(string: code) else { return nil }
+            let code = try? String(contentsOfFile: path),
+            let ditherKernel = CIColorKernel(source: code) else { return nil }
         guard let inputImage = inputImage else { return nil }
         
         let extent = inputImage.extent
-        let arguments = [inputImage, inputIntensity, inputMatrix, inputPalette]
+        let arguments: [Any] = [inputImage, inputIntensity, inputMatrix, inputPalette]
         
-        return ditherKernel.applyWithExtent(extent, arguments: arguments)
+        return ditherKernel.apply(extent: extent, arguments: arguments)
     }
 }

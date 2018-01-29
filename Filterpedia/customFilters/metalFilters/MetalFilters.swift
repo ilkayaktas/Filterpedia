@@ -24,7 +24,7 @@ import CoreImage
 
 import Metal
 import MetalKit
-    
+
 // MARK: MetalPixellateFilter
 
 class MetalPixellateFilter: MetalImageFilter
@@ -39,25 +39,25 @@ class MetalPixellateFilter: MetalImageFilter
         fatalError("init(coder:) has not been implemented")
     }
 
-    var inputPixelWidth: CGFloat = 50
-    var inputPixelHeight: CGFloat = 25
-    
+    @objc var inputPixelWidth: CGFloat = 50
+    @objc var inputPixelHeight: CGFloat = 25
+
     override func setDefaults()
     {
         inputPixelWidth = 50
         inputPixelHeight = 25
     }
-    
-    override var attributes: [String : AnyObject]
+
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "Metal Pixellate",
-        
+
             "inputImage": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "CIImage",
                 kCIAttributeDisplayName: "Image",
                 kCIAttributeType: kCIAttributeTypeImage],
-            
+
             "inputPixelWidth": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 50,
@@ -66,7 +66,7 @@ class MetalPixellateFilter: MetalImageFilter
                 kCIAttributeSliderMin: 0,
                 kCIAttributeSliderMax: 100,
                 kCIAttributeType: kCIAttributeTypeScalar],
-            
+
             "inputPixelHeight": [kCIAttributeIdentity: 1,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 25,
@@ -87,36 +87,36 @@ class MetalPerlinNoise: MetalGeneratorFilter
     {
         super.init(functionName: "perlin")
     }
-    
+
     required init?(coder aDecoder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var inputReciprocalScale = CGFloat(50)
-    var inputOctaves = CGFloat(2)
-    var inputPersistence = CGFloat(0.5)
-    
-    var inputColor0 = CIColor(red: 0.5, green: 0.25, blue: 0)
-    var inputColor1 = CIColor(red: 0, green: 0, blue: 0.15)
-    
-    var inputZ = CGFloat(0)
-    
+    @objc var inputReciprocalScale = CGFloat(50)
+    @objc var inputOctaves = CGFloat(2)
+    @objc var inputPersistence = CGFloat(0.5)
+
+    @objc var inputColor0 = CIColor(red: 0.5, green: 0.25, blue: 0)
+    @objc var inputColor1 = CIColor(red: 0, green: 0, blue: 0.15)
+
+    @objc var inputZ = CGFloat(0)
+
     override func setDefaults()
     {
         inputReciprocalScale = 50
         inputOctaves = 2
         inputPersistence = 0.5
-        
+
         inputColor0 = CIColor(red: 0.5, green: 0.25, blue: 0)
         inputColor1 = CIColor(red: 0, green: 0, blue: 0.15)
     }
-    
-    override var attributes: [String : AnyObject]
+
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "Metal Perlin Noise",
-            
+
             "inputReciprocalScale": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 50,
@@ -125,7 +125,7 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeSliderMin: 10,
                 kCIAttributeSliderMax: 100,
                 kCIAttributeType: kCIAttributeTypeScalar],
-            
+
             "inputOctaves": [kCIAttributeIdentity: 1,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 2,
@@ -134,7 +134,7 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeSliderMin: 1,
                 kCIAttributeSliderMax: 16,
                 kCIAttributeType: kCIAttributeTypeScalar],
-            
+
             "inputPersistence": [kCIAttributeIdentity: 2,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 0.5,
@@ -143,19 +143,19 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeSliderMin: 0,
                 kCIAttributeSliderMax: 1,
                 kCIAttributeType: kCIAttributeTypeScalar],
-            
+
             "inputColor0": [kCIAttributeIdentity: 3,
                 kCIAttributeClass: "CIColor",
                 kCIAttributeDefault: CIColor(red: 0.5, green: 0.25, blue: 0),
                 kCIAttributeDisplayName: "Color One",
                 kCIAttributeType: kCIAttributeTypeColor],
-            
+
             "inputColor1": [kCIAttributeIdentity: 4,
                 kCIAttributeClass: "CIColor",
                 kCIAttributeDefault: CIColor(red: 0, green: 0, blue: 0.15),
                 kCIAttributeDisplayName: "Color Two",
                 kCIAttributeType: kCIAttributeTypeColor],
-            
+
             "inputZ": [kCIAttributeIdentity: 5,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 1,
@@ -164,7 +164,7 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeSliderMin: 0,
                 kCIAttributeSliderMax: 1024,
                 kCIAttributeType: kCIAttributeTypeScalar],
-            
+
             "inputWidth": [kCIAttributeIdentity: 2,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 640,
@@ -173,7 +173,7 @@ class MetalPerlinNoise: MetalGeneratorFilter
                 kCIAttributeSliderMin: 100,
                 kCIAttributeSliderMax: 2048,
                 kCIAttributeType: kCIAttributeTypeScalar],
-            
+
             "inputHeight": [kCIAttributeIdentity: 2,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 640,
@@ -194,29 +194,29 @@ class MetalKuwaharaFilter: MetalImageFilter
     {
         super.init(functionName: "kuwahara")
     }
-    
+
     required init?(coder aDecoder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    var inputRadius: CGFloat = 15
-    
+
+    @objc var inputRadius: CGFloat = 15
+
     override func setDefaults()
     {
         inputRadius = 15
     }
-    
-    override var attributes: [String : AnyObject]
+
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "Metal Kuwahara",
-            
+
             "inputImage": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "CIImage",
                 kCIAttributeDisplayName: "Image",
                 kCIAttributeType: kCIAttributeTypeImage],
-            
+
             "inputRadius": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 15,
@@ -233,36 +233,36 @@ class MetalKuwaharaFilter: MetalImageFilter
 
 class MetalGeneratorFilter: MetalFilter
 {
-    var inputWidth: CGFloat = 640
-    var inputHeight: CGFloat = 640
-    
+    @objc var inputWidth: CGFloat = 640
+    @objc var inputHeight: CGFloat = 640
+
     override func textureInvalid() -> Bool
     {
-        if let textureDescriptor = textureDescriptor where
+        if let textureDescriptor = textureDescriptor ,
             textureDescriptor.width != Int(inputWidth)  ||
                 textureDescriptor.height != Int(inputHeight)
         {
             return true
         }
-        
+
         return false
     }
 }
 
 class MetalImageFilter: MetalFilter
 {
-    var inputImage: CIImage?
-    
+    @objc var inputImage: CIImage?
+
     override func textureInvalid() -> Bool
     {
         if let textureDescriptor = textureDescriptor,
-            inputImage = inputImage where
+            let inputImage = inputImage ,
             textureDescriptor.width != Int(inputImage.extent.width)  ||
                 textureDescriptor.height != Int(inputImage.extent.height)
         {
             return true
         }
-        
+
         return false
     }
 }
@@ -277,37 +277,37 @@ class MetalImageFilter: MetalFilter
 class MetalFilter: CIFilter, MetalRenderable
 {
     let device: MTLDevice = MTLCreateSystemDefaultDevice()!
-    let colorSpace = CGColorSpaceCreateDeviceRGB()!
-    
+    let colorSpace = CGColorSpaceCreateDeviceRGB()
+
     lazy var ciContext: CIContext =
     {
         [unowned self] in
-        
-        return CIContext(MTLDevice: self.device)
+
+        return CIContext(mtlDevice: self.device)
     }()
-    
+
     lazy var commandQueue: MTLCommandQueue =
     {
         [unowned self] in
-        
-        return self.device.newCommandQueue()
-    }()
-    
+
+        return self.device.makeCommandQueue()
+    }()!
+
     lazy var defaultLibrary: MTLLibrary =
     {
         [unowned self] in
-        
-        return self.device.newDefaultLibrary()!
+
+        return self.device.makeDefaultLibrary()!
     }()
-    
+
     var pipelineState: MTLComputePipelineState!
-    
+
     let functionName: String
-    
+
     var threadsPerThreadgroup: MTLSize!
-    
+
     var threadgroupsPerGrid: MTLSize?
-    
+
     var textureDescriptor: MTLTextureDescriptor?
     var kernelInputTexture: MTLTexture?
     var kernelOutputTexture: MTLTexture?
@@ -318,159 +318,159 @@ class MetalFilter: CIFilter, MetalRenderable
         {
             self.textureDescriptor = nil
         }
-        
+
         if let imageFilter = self as? MetalImageFilter,
-            inputImage = imageFilter.inputImage
+            let inputImage = imageFilter.inputImage
         {
             return imageFromComputeShader(width: inputImage.extent.width,
                 height: inputImage.extent.height,
                 inputImage: inputImage)
         }
-        
+
         if let generatorFilter = self as? MetalGeneratorFilter
         {
             return imageFromComputeShader(width: generatorFilter.inputWidth,
                 height: generatorFilter.inputHeight,
                 inputImage: nil)
         }
-        
+
         return nil
     }
-    
+
     init(functionName: String)
     {
         self.functionName = functionName
-        
+
         super.init()
-        
-        let kernelFunction = defaultLibrary.newFunctionWithName(self.functionName)!
-        
+
+        let kernelFunction = defaultLibrary.makeFunction(name: self.functionName)!
+
         do
         {
-            pipelineState = try self.device.newComputePipelineStateWithFunction(kernelFunction)
-            
+            pipelineState = try self.device.makeComputePipelineState(function: kernelFunction)
+
             let maxTotalThreadsPerThreadgroup = Double(pipelineState.maxTotalThreadsPerThreadgroup)
             let threadExecutionWidth = Double(pipelineState.threadExecutionWidth)
             
-            let threadsPerThreadgroupSide = 0.stride(
-                to: Int(sqrt(maxTotalThreadsPerThreadgroup)),
-                by: 1).reduce(16)
-            {
-                return (Double($1 * $1) / threadExecutionWidth) % 1 == 0 ? $1 : $0
+            let threadsPerThreadgroupBuff = stride(from: 0, to: Int(sqrt(maxTotalThreadsPerThreadgroup)), by: 1).map{$0}
+            let threadsPerThreadgroupSize = threadsPerThreadgroupBuff.reduce(16) {
+                return (Double($1 * $1) / threadExecutionWidth).truncatingRemainder(dividingBy: 1) == 0 ? $1 : $0
             }
-  
-            threadsPerThreadgroup = MTLSize(width:threadsPerThreadgroupSide,
-                height:threadsPerThreadgroupSide,
-                depth:1)
+            
+            threadsPerThreadgroup = MTLSize(
+                width: threadsPerThreadgroupSize,
+                height: threadsPerThreadgroupSize,
+                depth: 1)
         }
         catch
         {
             fatalError("Unable to create pipeline state for kernel function \(functionName)")
         }
-        
-        
-        
+
+
+
         if !(self is MetalImageFilter) && !(self is MetalGeneratorFilter)
         {
             fatalError("MetalFilters must subclass either MetalImageFilter or MetalGeneratorFilter")
         }
     }
-    
+
     required init?(coder aDecoder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func textureInvalid() -> Bool
     {
         fatalError("textureInvalid() not implemented in MetalFilter")
     }
-    
-    func imageFromComputeShader(width width: CGFloat, height: CGFloat, inputImage: CIImage?) -> CIImage
+
+    func imageFromComputeShader(width: CGFloat, height: CGFloat, inputImage: CIImage?) -> CIImage
     {
         if textureDescriptor == nil
         {
-            textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(.RGBA8Unorm,
+            textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm,
                 width: Int(width),
                 height: Int(height),
                 mipmapped: false)
-            
-            kernelInputTexture = device.newTextureWithDescriptor(textureDescriptor!)
-            kernelOutputTexture = device.newTextureWithDescriptor(textureDescriptor!)
-            
+
+            kernelInputTexture = device.makeTexture(descriptor: textureDescriptor!)
+            kernelOutputTexture = device.makeTexture(descriptor: textureDescriptor!)
+
             threadgroupsPerGrid = MTLSizeMake(
                 textureDescriptor!.width / threadsPerThreadgroup.width,
                 textureDescriptor!.height / threadsPerThreadgroup.height, 1)
         }
 
-        let commandBuffer = commandQueue.commandBuffer()
+        let commandBuffer = commandQueue.makeCommandBuffer()
 
         if let imageFilter = self as? MetalImageFilter,
-            inputImage = imageFilter.inputImage
+            let inputImage = imageFilter.inputImage
         {
             ciContext.render(inputImage,
-                toMTLTexture: kernelInputTexture!,
+                to: kernelInputTexture!,
                 commandBuffer: commandBuffer,
                 bounds: inputImage.extent,
                 colorSpace: colorSpace)
         }
+
+        let commandEncoder = commandBuffer?.makeComputeCommandEncoder()
+
+        commandEncoder?.setComputePipelineState(pipelineState)
         
-        let commandEncoder = commandBuffer.computeCommandEncoder()
-        
-        commandEncoder.setComputePipelineState(pipelineState)
-        
-        // populate float buffers using kCIAttributeIdentity as buffer index
-        for inputKey in inputKeys where attributes[inputKey]?[kCIAttributeClass] == "NSNumber"
+          // populate float buffers using kCIAttributeIdentity as buffer index
+        for inputKey in inputKeys where ((attributes[inputKey] as? [String:Any])?[kCIAttributeClass] as? String) == "NSNumber"
         {
-            if let bufferIndex = (attributes[inputKey] as! [String:AnyObject])[kCIAttributeIdentity] as? Int,
-                var bufferValue = valueForKey(inputKey) as? Float
+            if let bufferIndex = (attributes[inputKey] as! [String:Any])[kCIAttributeIdentity] as? Int,
+                var bufferValue = value(forKey: inputKey) as? Float
             {
-                let buffer = device.newBufferWithBytes(&bufferValue,
-                    length: sizeof(Float),
-                    options: MTLResourceOptions.CPUCacheModeDefaultCache)
-                
-                commandEncoder.setBuffer(buffer, offset: 0, atIndex: bufferIndex)
+                let buffer = device.makeBuffer(
+                    bytes: &bufferValue,
+                    length: MemoryLayout<Float>.size,
+                    options: .cpuCacheModeWriteCombined)
+                commandEncoder?.setBuffer(buffer, offset: 0, index: bufferIndex)
             }
         }
         
         // populate color buffers using kCIAttributeIdentity as buffer index
-        for inputKey in inputKeys where attributes[inputKey]?[kCIAttributeClass] == "CIColor"
+        for inputKey in inputKeys where ((attributes[inputKey] as? [String:Any])?[kCIAttributeClass] as? String) == "CIVector"
         {
-            if let bufferIndex = (attributes[inputKey] as! [String:AnyObject])[kCIAttributeIdentity] as? Int,
-                bufferValue = valueForKey(inputKey) as? CIColor
+            if let bufferIndex = (attributes[inputKey] as! [String:Any])[kCIAttributeIdentity] as? Int,
+                let bufferValue = value(forKey: inputKey) as? CIColor
             {
                 var color = float4(Float(bufferValue.red),
                     Float(bufferValue.green),
                     Float(bufferValue.blue),
                     Float(bufferValue.alpha))
                 
-                let buffer = device.newBufferWithBytes(&color,
-                    length: sizeof(float4),
-                    options: MTLResourceOptions.CPUCacheModeDefaultCache)
+                let buffer = device.makeBuffer(bytes: &color,
+                    length: MemoryLayout<float4>.size,
+                    options: .cpuCacheModeWriteCombined)
                 
-                commandEncoder.setBuffer(buffer, offset: 0, atIndex: bufferIndex)
+                commandEncoder?.setBuffer(buffer, offset: 0, index: bufferIndex)
             }
         }
 
+        
         if self is MetalImageFilter
         {
-            commandEncoder.setTexture(kernelInputTexture, atIndex: 0)
-            commandEncoder.setTexture(kernelOutputTexture, atIndex: 1)
+            commandEncoder?.setTexture(kernelInputTexture, index: 0)
+            commandEncoder?.setTexture(kernelOutputTexture, index: 1)
         }
         else if self is MetalGeneratorFilter
         {
-            commandEncoder.setTexture(kernelOutputTexture, atIndex: 0)
+            commandEncoder?.setTexture(kernelOutputTexture, index: 0)
         }
 
-        commandEncoder.dispatchThreadgroups(threadgroupsPerGrid!,
+        commandEncoder?.dispatchThreadgroups(threadgroupsPerGrid!,
             threadsPerThreadgroup: threadsPerThreadgroup)
-        
-        commandEncoder.endEncoding()
-        
-        commandBuffer.commit()
-     
-        return CIImage(MTLTexture: kernelOutputTexture!,
-            options: [kCIImageColorSpace: colorSpace])
+
+        commandEncoder?.endEncoding()
+
+        commandBuffer?.commit()
+
+        return CIImage(mtlTexture: kernelOutputTexture!,
+            options: [kCIImageColorSpace: colorSpace])!        
     }
 }
 
@@ -478,9 +478,10 @@ class MetalFilter: CIFilter, MetalRenderable
     class MetalFilter: CIFilter
     {
     }
-    
+
 #endif
 
 protocol MetalRenderable {
-    
+
 }
+

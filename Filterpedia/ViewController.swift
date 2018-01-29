@@ -26,20 +26,20 @@ class ViewController: UIViewController
     override func viewDidLayoutSubviews()
     {
         filterNavigator.frame = CGRect(x: 0,
-            y: topLayoutGuide.length,
+            y: view.safeAreaInsets.top,
             width: 300,
-            height: view.frame.height - topLayoutGuide.length).insetBy(dx: 5, dy: 5)
+            height: view.frame.height - view.safeAreaInsets.top).insetBy(dx: 5, dy: 5)
         
         filterDetail.frame = CGRect(x: 300,
-            y: topLayoutGuide.length,
+            y: view.safeAreaInsets.top,
             width: view.frame.width - 300,
-            height: view.frame.height - topLayoutGuide.length).insetBy(dx: 5, dy: 5)
+            height: view.frame.height - view.safeAreaInsets.top).insetBy(dx: 5, dy: 5)
     }
 }
 
 extension ViewController: FilterNavigatorDelegate
 {
-    func filterNavigator(filterNavigator: FilterNavigator, didSelectFilterName: String)
+    func filterNavigator(_ filterNavigator: FilterNavigator, didSelectFilterName: String)
     {
         filterDetail.filterName = didSelectFilterName
     }
