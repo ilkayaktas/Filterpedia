@@ -12,11 +12,11 @@ import CoreImage
 
 class VHSTrackingLines: CIFilter
 {
-    var inputImage: CIImage?
-    var inputTime: CGFloat = 0
-    var inputSpacing: CGFloat = 50
-    var inputStripeHeight: CGFloat = 0.5
-    var inputBackgroundNoise: CGFloat = 0.05
+    @objc var inputImage: CIImage?
+    @objc var inputTime: CGFloat = 0
+    @objc var inputSpacing: CGFloat = 50
+    @objc var inputStripeHeight: CGFloat = 0.5
+    @objc var inputBackgroundNoise: CGFloat = 0.05
     
     override func setDefaults()
     {
@@ -25,7 +25,7 @@ class VHSTrackingLines: CIFilter
         inputBackgroundNoise = 0.05
     }
     
-    override var attributes: [String : AnyObject]
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "VHS Tracking Lines",
@@ -75,17 +75,17 @@ class VHSTrackingLines: CIFilter
             return nil
         }
         
-        let tx = NSValue(CGAffineTransform: CGAffineTransformMakeTranslation(CGFloat(drand48() * 100), CGFloat(drand48() * 100)))
+        let tx = NSValue(cgAffineTransform: CGAffineTransform(translationX: CGFloat(drand48() * 100), y: CGFloat(drand48() * 100)))
         
         let noise = CIFilter(name: "CIRandomGenerator")!.outputImage!
-            .imageByApplyingFilter("CIAffineTransform",
-                withInputParameters: [kCIInputTransformKey: tx])
-            .imageByApplyingFilter("CILanczosScaleTransform",
-                withInputParameters: [kCIInputAspectRatioKey: 5])
-            .imageByCroppingToRect(inputImage.extent)
+            .applyingFilter("CIAffineTransform",
+                parameters: [kCIInputTransformKey: tx])
+            .applyingFilter("CILanczosScaleTransform",
+                parameters: [kCIInputAspectRatioKey: 5])
+            .cropped(to: inputImage.extent)
         
         
-        let kernel = CIColorKernel(string:
+        let kernel = CIColorKernel(source:
             "kernel vec4 thresholdFilter(__sample image, __sample noise, float time, float spacing, float stripeHeight, float backgroundNoise)" +
                 "{" +
                 "   vec2 uv = destCoord();" +
@@ -98,10 +98,10 @@ class VHSTrackingLines: CIFilter
         
         
         let extent = inputImage.extent
-        let arguments = [inputImage, noise, inputTime, inputSpacing, inputStripeHeight, inputBackgroundNoise]
+        let arguments: [Any] = [inputImage, noise, inputTime, inputSpacing, inputStripeHeight, inputBackgroundNoise]
         
-        let final = kernel.applyWithExtent(extent, arguments: arguments)?
-            .imageByApplyingFilter("CIPhotoEffectNoir", withInputParameters: nil)
+        let final = kernel.apply(extent: extent, arguments: arguments)?
+            .applyingFilter("CIPhotoEffectNoir", parameters: [:])
         
         return final
     }
@@ -109,12 +109,12 @@ class VHSTrackingLines: CIFilter
 
 class CRTFilter: CIFilter
 {
-    var inputImage : CIImage?
-    var inputPixelWidth: CGFloat = 8
-    var inputPixelHeight: CGFloat = 12
-    var inputBend: CGFloat = 3.2
+    @objc var inputImage : CIImage?
+    @objc var inputPixelWidth: CGFloat = 8
+    @objc var inputPixelHeight: CGFloat = 12
+    @objc var inputBend: CGFloat = 3.2
     
-    override var attributes: [String : AnyObject]
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "CRT Filter",
@@ -185,12 +185,12 @@ class CRTFilter: CIFilter
     
     class CRTColorFilter: CIFilter
     {
-        var inputImage : CIImage?
+        @objc var inputImage : CIImage?
         
         var pixelWidth: CGFloat = 8.0
         var pixelHeight: CGFloat = 12.0
         
-        let crtColorKernel = CIColorKernel(string:
+        let crtColorKernel = CIColorKernel(source:
             "kernel vec4 crtColor(__sample image, float pixelWidth, float pixelHeight) \n" +
                 "{ \n" +
                 
@@ -211,11 +211,11 @@ class CRTFilter: CIFilter
         override var outputImage: CIImage!
         {
             if let inputImage = inputImage,
-                crtColorKernel = crtColorKernel
+                let crtColorKernel = crtColorKernel
             {
                 let dod = inputImage.extent
-                let args = [inputImage, pixelWidth, pixelHeight]
-                return crtColorKernel.applyWithExtent(dod, arguments: args)
+                let args: [Any] = [inputImage, pixelWidth, pixelHeight]
+                return crtColorKernel.apply(extent: dod, arguments: args)
             }
             return nil
         }
@@ -223,10 +223,10 @@ class CRTFilter: CIFilter
     
     class CRTWarpFilter: CIFilter
     {
-        var inputImage : CIImage?
+        @objc var inputImage : CIImage?
         var bend: CGFloat = 3.2
         
-        let crtWarpKernel = CIWarpKernel(string:
+        let crtWarpKernel = CIWarpKernel(source:
             "kernel vec2 crtWarp(vec2 extent, float bend)" +
                 "{" +
                 "   vec2 coord = ((destCoord() / extent) - 0.5) * 2.0;" +
@@ -243,18 +243,18 @@ class CRTFilter: CIFilter
         override var outputImage : CIImage!
             {
                 if let inputImage = inputImage,
-                    crtWarpKernel = crtWarpKernel
+                    let crtWarpKernel = crtWarpKernel
                 {
-                    let arguments = [CIVector(x: inputImage.extent.size.width, y: inputImage.extent.size.height), bend]
+                    let arguments: [Any] = [CIVector(x: inputImage.extent.size.width, y: inputImage.extent.size.height), bend]
                     let extent = inputImage.extent.insetBy(dx: -1, dy: -1)
                     
-                    return crtWarpKernel.applyWithExtent(extent,
+                    return crtWarpKernel.apply(extent: extent,
                         roiCallback:
                         {
                             (index, rect) in
                             return rect
                         },
-                        inputImage: inputImage,
+                        image: inputImage,
                         arguments: arguments)
                 }
                 return nil

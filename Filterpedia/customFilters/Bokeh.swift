@@ -39,12 +39,12 @@ class MaskedVariableHexagonalBokeh: MaskedVariableCircularBokeh
 
 class MaskedVariableCircularBokeh: CIFilter
 {
-    var inputImage: CIImage?
-    var inputBokehMask: CIImage?
-    var inputMaxBokehRadius: CGFloat = 20
-    var inputBlurRadius: CGFloat = 2
+    @objc var inputImage: CIImage?
+    @objc var inputBokehMask: CIImage?
+    @objc var inputMaxBokehRadius: CGFloat = 20
+    @objc var inputBlurRadius: CGFloat = 2
     
-    override var attributes: [String : AnyObject]
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: displayName(),
@@ -81,7 +81,7 @@ class MaskedVariableCircularBokeh: CIFilter
     
     lazy var maskedVariableBokeh: CIKernel =
     {
-        return CIKernel(string:
+        return CIKernel(source:
             "kernel vec4 lumaVariableBlur(sampler image, sampler bokehMask, float maxBokehRadius) " +
                 "{ " +
                 "    vec2 d = destCoord(); " +
@@ -127,15 +127,15 @@ class MaskedVariableCircularBokeh: CIFilter
     
     override var outputImage: CIImage!
     {
-        guard let inputImage = inputImage, inputBlurMask = inputBokehMask else
+        guard let inputImage = inputImage, let inputBlurMask = inputBokehMask else
         {
             return nil
         }
         
         let extent = inputImage.extent
         
-        let blur = maskedVariableBokeh.applyWithExtent(
-            inputImage.extent,
+        let blur = maskedVariableBokeh.apply(
+            extent: inputImage.extent,
             roiCallback:
             {
                 (index, rect) in
@@ -144,8 +144,8 @@ class MaskedVariableCircularBokeh: CIFilter
             arguments: [inputImage, inputBlurMask, inputMaxBokehRadius])
         
         return blur!
-            .imageByApplyingFilter("CIMaskedVariableBlur", withInputParameters: ["inputMask": inputBlurMask, "inputRadius": inputBlurRadius])
-            .imageByCroppingToRect(extent)
+            .applyingFilter("CIMaskedVariableBlur", parameters: ["inputMask": inputBlurMask, "inputRadius": inputBlurRadius])
+            .cropped(to: extent)
     }
 }
 
@@ -157,7 +157,7 @@ class MaskedVariableCircularBokeh: CIFilter
     
     class HexagonalBokehFilter: CIFilter, MetalRenderable
     {
-        override var attributes: [String : AnyObject]
+        override var attributes: [String : Any]
         {
             return [
                 kCIAttributeFilterDisplayName: "Hexagonal Bokeh",
@@ -187,26 +187,26 @@ class MaskedVariableCircularBokeh: CIFilter
             ]
         }
             
-        var inputImage: CIImage?
+        @objc var inputImage: CIImage?
         {
             didSet
             {
                 if let inputImage = inputImage
                 {
-                    let textureDescriptor = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(
-                        .RGBA8Unorm,
+                    let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(
+                        pixelFormat: .rgba8Unorm,
                         width: Int(inputImage.extent.width),
                         height: Int(inputImage.extent.height),
                         mipmapped: false)
                     
-                    sourceTexture = device.newTextureWithDescriptor(textureDescriptor)
-                    destinationTexture = device.newTextureWithDescriptor(textureDescriptor)
-                    intermediateTexture = device.newTextureWithDescriptor(textureDescriptor)
+                    sourceTexture = device.makeTexture(descriptor: textureDescriptor)
+                    destinationTexture = device.makeTexture(descriptor: textureDescriptor)
+                    intermediateTexture = device.makeTexture(descriptor: textureDescriptor)
                 }
             }
         }
         
-        var inputBokehRadius: CGFloat = 15
+        @objc var inputBokehRadius: CGFloat = 15
         {
             didSet
             {
@@ -217,7 +217,7 @@ class MaskedVariableCircularBokeh: CIFilter
             }
         }
         
-        var inputBlurSigma: CGFloat = 2
+        @objc var inputBlurSigma: CGFloat = 2
         {
             didSet
             {
@@ -237,10 +237,10 @@ class MaskedVariableCircularBokeh: CIFilter
         {
             [unowned self] in
             
-            return CIContext(MTLDevice: self.device)
+            return CIContext(mtlDevice: self.device)
         }()
         
-        let colorSpace = CGColorSpaceCreateDeviceRGB()!
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
         
         private var probe = [Float]()
         
@@ -254,9 +254,9 @@ class MaskedVariableCircularBokeh: CIFilter
         override var outputImage: CIImage?
         {
             guard let inputImage = inputImage,
-                inputTexture = sourceTexture,
-                outputTexture = destinationTexture,
-                intermediateTexture = intermediateTexture else
+                let inputTexture = sourceTexture,
+                let outputTexture = destinationTexture,
+                let intermediateTexture = intermediateTexture else
             {
                 return nil
             }
@@ -271,32 +271,37 @@ class MaskedVariableCircularBokeh: CIFilter
                 createBlur()
             }
             
-            let commandQueue = device.newCommandQueue()
+            guard let commandQueue = device.makeCommandQueue() else {
+                return nil
+            }
             
-            let commandBuffer = commandQueue.commandBuffer()
+            guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+                return nil
+            }
             
             ciContext.render(
                 inputImage,
-                toMTLTexture: inputTexture,
+                to: inputTexture,
                 commandBuffer: commandBuffer,
                 bounds: inputImage.extent,
                 colorSpace: colorSpace)
             
-            dilate!.encodeToCommandBuffer(
-                commandBuffer,
+            dilate!.encode(
+                commandBuffer: commandBuffer,
                 sourceTexture: inputTexture,
                 destinationTexture: intermediateTexture)
             
-            blur!.encodeToCommandBuffer(
-                commandBuffer,
+            blur!.encode(
+                commandBuffer: commandBuffer,
                 sourceTexture: intermediateTexture,
                 destinationTexture: outputTexture)
             
             commandBuffer.commit()
             
             return CIImage(
-                MTLTexture: outputTexture,
-                options: [kCIImageColorSpace: colorSpace])
+                mtlTexture: outputTexture,
+                options: [kCIImageColorSpace: colorSpace]
+            )
         }
         
         func createDilate()
@@ -329,7 +334,7 @@ class MaskedVariableCircularBokeh: CIFilter
                 kernelHeight: size,
                 values: probe)
             
-            dilate.edgeMode = .Clamp
+            dilate.edgeMode = .clamp
             
             self.dilate = dilate
         }
