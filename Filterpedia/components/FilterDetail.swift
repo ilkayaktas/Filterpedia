@@ -188,7 +188,7 @@ class FilterDetail: UIView
             .filter({ $0 is FilterAttributesDisplayable})
             .forEach({ $0.removeFromSuperview() })
         
-        if let widget = OverlayWidgets.getOverlayWidgetForFilter(filterName) as? UIView
+        if let widget = OverlayWidgets.getOverlayWidgetForFilter(filterName: filterName) as? UIView
         {
             imageView.addSubview(widget)
             
@@ -261,7 +261,7 @@ class FilterDetail: UIView
         
         imageView.subviews
             .filter({ $0 is FilterAttributesDisplayable})
-            .forEach({ ($0 as? FilterAttributesDisplayable)?.setFilter(currentFilter) })
+            .forEach({ ($0 as? FilterAttributesDisplayable)?.setFilter(filter: currentFilter) })
         
         let queue = currentFilter is VImageFilter ?
             DispatchQueue.main :
