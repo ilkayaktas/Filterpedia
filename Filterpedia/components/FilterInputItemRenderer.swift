@@ -55,7 +55,7 @@ class FilterInputItemRenderer: UITableViewCell
     {
         let stackView = UIStackView()
         
-        stackView.axis = UILayoutConstraintAxis.vertical
+        stackView.axis = NSLayoutConstraint.Axis.vertical
         
         return stackView
     }()
@@ -106,7 +106,7 @@ class FilterInputItemRenderer: UITableViewCell
         }
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?)
     {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -116,7 +116,7 @@ class FilterInputItemRenderer: UITableViewCell
         
         textEditButton.layer.cornerRadius = 5
         textEditButton.layer.backgroundColor = UIColor(white: 0.8, alpha: 1.0).cgColor
-        textEditButton.setTitleColor(UIColor.blue, for: UIControlState())
+        textEditButton.setTitleColor(UIColor.blue, for: UIControl.State())
         
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(descriptionLabel)
@@ -127,15 +127,15 @@ class FilterInputItemRenderer: UITableViewCell
       
         slider.addTarget(self,
             action: #selector(FilterInputItemRenderer.sliderChangeHandler),
-            for: UIControlEvents.valueChanged)
+            for: UIControl.Event.valueChanged)
         
         vectorSlider.addTarget(self,
             action: #selector(FilterInputItemRenderer.vectorSliderChangeHandler),
-            for: UIControlEvents.valueChanged)
+            for: UIControl.Event.valueChanged)
         
         imagesSegmentedControl.addTarget(self,
             action: #selector(FilterInputItemRenderer.imagesSegmentedControlChangeHandler),
-            for: UIControlEvents.valueChanged)
+            for: UIControl.Event.valueChanged)
         
         textEditButton.addTarget(self,
             action: #selector(FilterInputItemRenderer.textEditClicked),
@@ -189,7 +189,7 @@ class FilterInputItemRenderer: UITableViewCell
         
         let editTextController = UIAlertController(title: "Filterpedia", message: nil, preferredStyle: .alert)
         
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default)
         {
             (_: UIAlertAction) in
             
@@ -197,11 +197,11 @@ class FilterInputItemRenderer: UITableViewCell
             {
                 self.value = updatedText as AnyObject
                 
-                self.textEditButton.setTitle(updatedText, for: UIControlState())
+                self.textEditButton.setTitle(updatedText, for: UIControl.State())
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil)
         
         editTextController.addTextField
         {
@@ -287,7 +287,7 @@ class FilterInputItemRenderer: UITableViewCell
             let text = filterParameterValues[inputKey] as? NSString ?? attribute[kCIAttributeDefault] as? NSString ?? ""
             
             value = text
-            textEditButton.setTitle(String(text), for: UIControlState())
+            textEditButton.setTitle(String(text), for: UIControl.State())
             
         default:
             slider.isHidden = true

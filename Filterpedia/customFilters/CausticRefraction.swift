@@ -193,7 +193,7 @@ class CausticRefraction: CIFilter
       
       let refractingImage = CIFilter(
           name: "CausticNoise",
-          withInputParameters: ["inputTime": inputTime, "inputTileSize": inputTileSize])?.outputImage!
+          parameters: ["inputTime": inputTime, "inputTileSize": inputTileSize])?.outputImage!
         .applyingFilter(
           "CIGaussianBlur",
           parameters: [kCIInputRadiusKey: inputSoftening])

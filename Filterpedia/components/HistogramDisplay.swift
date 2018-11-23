@@ -99,7 +99,7 @@ class HistogramDisplay: UIView
         layer.strokeColor = color.cgColor
         layer.fillColor = color.withAlphaComponent(0.5).cgColor
         layer.masksToBounds = true
-        layer.lineJoin = kCALineJoinRound
+        layer.lineJoin = CAShapeLayerLineJoin.round
         
         return layer
     }

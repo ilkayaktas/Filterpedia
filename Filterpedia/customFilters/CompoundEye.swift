@@ -145,7 +145,7 @@ class CompoundEye: CIFilter
                 .cropped(to: extent)
             
             return CIFilter(name: "CIBlendWithMask",
-                withInputParameters: [
+                parameters: [
                 kCIInputBackgroundImageKey: warpedImage,
                 kCIInputImageKey: backgroundImage,
                 kCIInputMaskImageKey: maskImage])?.outputImage

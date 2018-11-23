@@ -23,7 +23,7 @@ import UIKit
 class FilterDetail: UIView
 {
     let rect640x640 = CGRect(x: 0, y: 0, width: 640, height: 640)
-    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    let activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
     
     let compositeOverBlackFilter = CompositeOverBlackFilter()
     
@@ -41,7 +41,7 @@ class FilterDetail: UIView
     let tableView: UITableView =
     {
         let tableView = UITableView(frame: CGRect.zero,
-            style: UITableViewStyle.plain)
+            style: UITableView.Style.plain)
         
         tableView.register(FilterInputItemRenderer.self,
             forCellReuseIdentifier: "FilterInputItemRenderer")
@@ -188,7 +188,7 @@ class FilterDetail: UIView
             .filter({ $0 is FilterAttributesDisplayable})
             .forEach({ $0.removeFromSuperview() })
         
-        if let widget = OverlayWidgets.getOverlayWidgetForFilter(filterName) as? UIView
+        if let widget = OverlayWidgets.getOverlayWidgetForFilter(filterName: filterName) as? UIView
         {
             imageView.addSubview(widget)
             
@@ -261,7 +261,7 @@ class FilterDetail: UIView
         
         imageView.subviews
             .filter({ $0 is FilterAttributesDisplayable})
-            .forEach({ ($0 as? FilterAttributesDisplayable)?.setFilter(currentFilter) })
+            .forEach({ ($0 as? FilterAttributesDisplayable)?.setFilter(filter: currentFilter) })
         
         let queue = currentFilter is VImageFilter ?
             DispatchQueue.main :
@@ -287,7 +287,7 @@ class FilterDetail: UIView
                 // (e.g. a reduction filter) stretch to 640x640
                 
                 let stretch = CIFilter(name: "CIStretchCrop",
-                    withInputParameters: ["inputSize": CIVector(x: 640, y: 640),
+                    parameters: ["inputSize": CIVector(x: 640, y: 640),
                         "inputCropAmount": 0,
                         "inputCenterStretchAmount": 1,
                         kCIInputImageKey: outputImage])!
@@ -367,7 +367,7 @@ class FilterDetail: UIView
             width: intrinsicContentSize.width,
             height: intrinsicContentSize.height)
         
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
         activityIndicator.frame = imageView.bounds
         

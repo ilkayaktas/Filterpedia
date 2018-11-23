@@ -223,7 +223,7 @@ class ColorDirectedBlur: CIFilter
             return nil
         }
         
-        let accumulator = CIImageAccumulator(extent: inputImage.extent, format: kCIFormatARGB8)
+        let accumulator = CIImageAccumulator(extent: inputImage.extent, format: CIFormat.ARGB8)
         
         accumulator?.setImage(inputImage)
         

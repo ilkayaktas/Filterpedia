@@ -208,7 +208,7 @@ class RefractedTextFilter: CIFilter
         rawTextImage = CIImage(image: textImage!)!
 
         refractingImage = CIFilter(name: "CIHeightFieldFromMask",
-            withInputParameters: [
+            parameters: [
                 kCIInputRadiusKey: inputRadius,
                 kCIInputImageKey: rawTextImage!])?.outputImage?
             .cropped(to: inputImage!.extent)

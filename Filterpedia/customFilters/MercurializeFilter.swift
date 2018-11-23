@@ -185,16 +185,16 @@ class MercurializeFilter: CIFilter
         }
         
         let edgeWork = CIFilter(name: "CIEdgeWork",
-            withInputParameters: [kCIInputImageKey: inputImage,
+            parameters: [kCIInputImageKey: inputImage,
             kCIInputRadiusKey: inputEdgeThickness])!
         
         let heightField = CIFilter(name: "CIHeightFieldFromMask",
-                withInputParameters: [
+                parameters: [
                 kCIInputRadiusKey: inputScale,
                 kCIInputImageKey: edgeWork.outputImage!])!
         
         let shadedMaterial = CIFilter(name: "CIShadedMaterial",
-                withInputParameters: [
+                parameters: [
                 kCIInputScaleKey: inputScale,
                 kCIInputImageKey: heightField.outputImage!,
                 kCIInputShadingImageKey: sphereImage!])!

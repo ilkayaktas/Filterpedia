@@ -153,7 +153,7 @@ class CRTFilter: CIFilter
     let crtColorFilter = CRTColorFilter()
     
     let vignette = CIFilter(name: "CIVignette",
-        withInputParameters: [
+        parameters: [
             kCIInputIntensityKey: 1.5,
             kCIInputRadiusKey: 2])!
     

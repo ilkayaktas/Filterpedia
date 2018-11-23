@@ -28,8 +28,8 @@ class VectorSlider: UIControl
     {
         let stackView = UIStackView()
         
-        stackView.distribution = UIStackViewDistribution.fillEqually
-        stackView.axis = UILayoutConstraintAxis.horizontal
+        stackView.distribution = UIStackView.Distribution.fillEqually
+        stackView.axis = NSLayoutConstraint.Axis.horizontal
         
         return stackView
     }()
@@ -98,7 +98,7 @@ class VectorSlider: UIControl
             let slider = UISlider()
           
             slider.maximumValue = Float(sliderMax)
-            slider.addTarget(self, action: #selector(VectorSlider.sliderChangeHandler), for: UIControlEvents.valueChanged)
+            slider.addTarget(self, action: #selector(VectorSlider.sliderChangeHandler), for: UIControl.Event.valueChanged)
             
             stackView.addArrangedSubview(slider)
         }
@@ -113,7 +113,7 @@ class VectorSlider: UIControl
         vector = CIVector(values: values,
             count: values.count)
         
-        sendActions(for: UIControlEvents.valueChanged)
+        sendActions(for: UIControl.Event.valueChanged)
     }
     
     override func layoutSubviews()

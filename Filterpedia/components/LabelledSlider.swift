@@ -64,7 +64,7 @@ class LabelledSlider: UIControl
         
         addSubview(slider)
  
-        slider.addTarget(self, action: #selector(LabelledSlider.sliderChangeHandler), for: UIControlEvents.valueChanged)
+        slider.addTarget(self, action: #selector(LabelledSlider.sliderChangeHandler), for: UIControl.Event.valueChanged)
     }
     
     required init?(coder aDecoder: NSCoder)
@@ -76,7 +76,7 @@ class LabelledSlider: UIControl
     {
         value = slider.value
 
-        sendActions(for: UIControlEvents.valueChanged)
+        sendActions(for: UIControl.Event.valueChanged)
     }
     
     override func layoutSubviews()

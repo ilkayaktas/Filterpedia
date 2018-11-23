@@ -13,7 +13,7 @@ typealias NamedImage = (name: String, ciImage: CIImage)
 
 let gradientImage = CIFilter(
     name: "CIRadialGradient",
-    withInputParameters: [
+    parameters: [
         kCIInputCenterKey:
             CIVector(x: 320, y: 320),
         "inputRadius0": 200,
