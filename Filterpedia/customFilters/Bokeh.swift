@@ -300,7 +300,7 @@ class MaskedVariableCircularBokeh: CIFilter
             
             return CIImage(
                 mtlTexture: outputTexture,
-                options: [kCIImageColorSpace: colorSpace]
+                options: [CIImageOption.colorSpace: colorSpace]
             )
         }
         
