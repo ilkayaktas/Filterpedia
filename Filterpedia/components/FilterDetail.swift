@@ -88,8 +88,6 @@ class FilterDetail: UIView
         
         imageView.backgroundColor = UIColor.black
         
-        imageView.layer.borderColor = UIColor.gray.cgColor
-        imageView.layer.borderWidth = 1
         imageView.layer.cornerRadius = 30
         imageView.clipsToBounds = true
         
@@ -205,6 +203,7 @@ class FilterDetail: UIView
         applyFilter()
     }
     
+    // MARK: fixFilterParameterValues
     /// Assign a default image if required and ensure existing
     /// filterParameterValues won't break the new filter.
     func fixFilterParameterValues()
@@ -215,7 +214,6 @@ class FilterDetail: UIView
         }
         
         let attributes = currentFilter.attributes
-        
         for inputKey in currentFilter.inputKeys
         {
             if let attribute = attributes[inputKey] as? [String : AnyObject]
@@ -243,6 +241,8 @@ class FilterDetail: UIView
         }
     }
 
+    // MARK: applyFilter
+    
     func applyFilter()
     {
         guard !busy else
@@ -331,6 +331,7 @@ class FilterDetail: UIView
         }
     }
     
+    // MARK: layoutSubviews
     override func layoutSubviews()
     {
         let halfWidth = frame.width * 0.5

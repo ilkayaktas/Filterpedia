@@ -85,7 +85,11 @@ class FilterInputItemRenderer: UITableViewCell
             
             title = "\(displayName) (\(inputKey): \(className))"
             
-            titleLabel.text = "\(displayName) (\(inputKey): \(className))"
+            if !displayName.starts(with: "Image") && !displayName.starts(with: "Background Image") {
+                titleLabel.text = "\(displayName) (\(inputKey): \(className))"
+            } else{
+                titleLabel.text = displayName
+            }
             
             descriptionLabel.text = attribute[kCIAttributeDescription] as? String ?? "[No description]"
         
@@ -101,7 +105,9 @@ class FilterInputItemRenderer: UITableViewCell
             
             if let value = value
             {
-                titleLabel.text = title + " = \(value)"
+                if !title.starts(with: "Image") && !title.starts(with: "Background Image") {
+                    titleLabel.text = title + " = \(value)"
+                }
             }
         }
     }
@@ -119,7 +125,7 @@ class FilterInputItemRenderer: UITableViewCell
         textEditButton.setTitleColor(UIColor.blue, for: UIControl.State())
         
         stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(descriptionLabel)
+        //stackView.addArrangedSubview(descriptionLabel)
         stackView.addArrangedSubview(slider)
         stackView.addArrangedSubview(imagesSegmentedControl)
         stackView.addArrangedSubview(vectorSlider)
