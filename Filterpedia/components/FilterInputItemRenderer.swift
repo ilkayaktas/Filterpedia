@@ -85,7 +85,7 @@ class FilterInputItemRenderer: UITableViewCell
             
             title = "\(displayName) (\(inputKey): \(className))"
             
-            if !displayName.starts(with: "Image") && !displayName.starts(with: "Background Image") {
+            if !displayName.contains("Image") {
                 titleLabel.text = "\(displayName) (\(inputKey): \(className))"
             } else{
                 titleLabel.text = displayName
@@ -105,7 +105,7 @@ class FilterInputItemRenderer: UITableViewCell
             
             if let value = value
             {
-                if !title.starts(with: "Image") && !title.starts(with: "Background Image") {
+                if !title.contains("Image") {
                     titleLabel.text = title + " = \(value)"
                 }
             }
