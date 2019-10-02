@@ -47,7 +47,7 @@ class MaskedVariableCircularBokeh: CIFilter
     override var attributes: [String : Any]
     {
         return [
-            kCIAttributeFilterDisplayName: displayName(),
+            kCIAttributeFilterDisplayName: displayName() as AnyObject,
             
             "inputImage": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "CIImage",
@@ -160,7 +160,7 @@ class MaskedVariableCircularBokeh: CIFilter
         override var attributes: [String : Any]
         {
             return [
-                kCIAttributeFilterDisplayName: "Hexagonal Bokeh",
+                kCIAttributeFilterDisplayName: "Hexagonal Bokeh" as AnyObject,
                 
                 "inputImage": [kCIAttributeIdentity: 0,
                     kCIAttributeClass: "CIImage",
@@ -198,6 +198,8 @@ class MaskedVariableCircularBokeh: CIFilter
                         width: Int(inputImage.extent.width),
                         height: Int(inputImage.extent.height),
                         mipmapped: false)
+                    
+                    textureDescriptor.usage = [.shaderRead, .shaderWrite]
                     
                     sourceTexture = device.makeTexture(descriptor: textureDescriptor)
                     destinationTexture = device.makeTexture(descriptor: textureDescriptor)
@@ -242,14 +244,14 @@ class MaskedVariableCircularBokeh: CIFilter
         
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         
-        private var probe = [Float]()
+        fileprivate var probe = [Float]()
         
-        private var dilate: MPSImageDilate?
-        private var blur: MPSImageGaussianBlur?
+        fileprivate var dilate: MPSImageDilate?
+        fileprivate var blur: MPSImageGaussianBlur?
         
-        private var sourceTexture: MTLTexture?
-        private var destinationTexture: MTLTexture?
-        private var intermediateTexture: MTLTexture?
+        fileprivate var sourceTexture: MTLTexture?
+        fileprivate var destinationTexture: MTLTexture?
+        fileprivate var intermediateTexture: MTLTexture?
         
         override var outputImage: CIImage?
         {
@@ -271,13 +273,9 @@ class MaskedVariableCircularBokeh: CIFilter
                 createBlur()
             }
             
-            guard let commandQueue = device.makeCommandQueue() else {
-                return nil
-            }
+            let commandQueue = device.makeCommandQueue()!
             
-            guard let commandBuffer = commandQueue.makeCommandBuffer() else {
-                return nil
-            }
+            let commandBuffer = commandQueue.makeCommandBuffer()!
             
             ciContext.render(
                 inputImage,
@@ -300,8 +298,7 @@ class MaskedVariableCircularBokeh: CIFilter
             
             return CIImage(
                 mtlTexture: outputTexture,
-                options: [CIImageOption.colorSpace: colorSpace]
-            )
+                options: convertToOptionalCIImageOptionDictionary([convertFromCIImageOption(CIImageOption.colorSpace): colorSpace]))
         }
         
         func createDilate()
@@ -353,3 +350,14 @@ class MaskedVariableCircularBokeh: CIFilter
     
 #endif
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalCIImageOptionDictionary(_ input: [String: Any]?) -> [CIImageOption: Any]? {
+    guard let input = input else { return nil }
+    return Dictionary(uniqueKeysWithValues: input.map { key, value in (CIImageOption(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromCIImageOption(_ input: CIImageOption) -> String {
+    return input.rawValue
+}
