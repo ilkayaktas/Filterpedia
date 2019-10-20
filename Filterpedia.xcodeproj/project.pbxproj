@@ -117,9 +117,18 @@
 		3EFF28311CEB5B9D008FA17D /* scatter.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3EFF28301CEB5B9D008FA17D /* scatter.jpg */; };
 		3EFF28331CEE0245008FA17D /* TransverseChromaticAberration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFF28321CEE0245008FA17D /* TransverseChromaticAberration.swift */; };
 		3EFF28351CEE0D16008FA17D /* transverse_chromatic_aberration.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EFF28341CEE0D16008FA17D /* transverse_chromatic_aberration.png */; };
+		98380D532353B3F30010D833 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98380D522353B3F30010D833 /* FilterViewController.swift */; };
+		9858C8F823467008006A49CF /* Inspectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9858C8F723467008006A49CF /* Inspectable.swift */; };
+		98FC647F235BAC2E004BA892 /* FilterAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FC647E235BAC2E004BA892 /* FilterAttributeView.swift */; };
+		98FC6481235BACF2004BA892 /* FilterAttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98FC6480235BACF2004BA892 /* FilterAttributeCell.xib */; };
+		98FC6483235BAE6C004BA892 /* FilterAttributeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FC6482235BAE6C004BA892 /* FilterAttributeCell.swift */; };
+		98FC6485235BB02A004BA892 /* FilterAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98FC6484235BB02A004BA892 /* FilterAttributeView.xib */; };
+		98FC648E235D0A94004BA892 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FC648D235D0A94004BA892 /* FilterView.swift */; };
+		D235CB9C0DCA40A47699E2B9 /* Pods_Filterpedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA2F503C2126DA41AD632FA /* Pods_Filterpedia.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0AA2F503C2126DA41AD632FA /* Pods_Filterpedia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Filterpedia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E08119B1CC93BB4001581D3 /* VImageFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VImageFilters.swift; path = customFilters/VImageFilters.swift; sourceTree = "<group>"; };
 		3E0811EE1CD27C93001581D3 /* CIKL_Sky.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CIKL_Sky.swift; path = customFilters/CIKL_Sky.swift; sourceTree = "<group>"; };
 		3E0811F01CD27CC6001581D3 /* cikl_sky.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = cikl_sky.cikernel; path = customFilters/cikl_sky.cikernel; sourceTree = "<group>"; };
@@ -232,6 +241,15 @@
 		3EFF28301CEB5B9D008FA17D /* scatter.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = scatter.jpg; path = assets/examples/scatter.jpg; sourceTree = "<group>"; };
 		3EFF28321CEE0245008FA17D /* TransverseChromaticAberration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TransverseChromaticAberration.swift; path = customFilters/TransverseChromaticAberration.swift; sourceTree = "<group>"; };
 		3EFF28341CEE0D16008FA17D /* transverse_chromatic_aberration.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = transverse_chromatic_aberration.png; path = assets/transverse_chromatic_aberration.png; sourceTree = "<group>"; };
+		521E4251EC9482B27D04D6AB /* Pods-Filterpedia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Filterpedia.debug.xcconfig"; path = "Target Support Files/Pods-Filterpedia/Pods-Filterpedia.debug.xcconfig"; sourceTree = "<group>"; };
+		98380D522353B3F30010D833 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		9858C8F723467008006A49CF /* Inspectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspectable.swift; sourceTree = "<group>"; };
+		98FC647E235BAC2E004BA892 /* FilterAttributeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAttributeView.swift; sourceTree = "<group>"; };
+		98FC6480235BACF2004BA892 /* FilterAttributeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterAttributeCell.xib; sourceTree = "<group>"; };
+		98FC6482235BAE6C004BA892 /* FilterAttributeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAttributeCell.swift; sourceTree = "<group>"; };
+		98FC6484235BB02A004BA892 /* FilterAttributeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterAttributeView.xib; sourceTree = "<group>"; };
+		98FC648D235D0A94004BA892 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		AB963486D1CA9B63B3A4BBDD /* Pods-Filterpedia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Filterpedia.release.xcconfig"; path = "Target Support Files/Pods-Filterpedia/Pods-Filterpedia.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +257,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D235CB9C0DCA40A47699E2B9 /* Pods_Filterpedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +377,8 @@
 			children = (
 				3E9A72091C325E5600CAD516 /* Filterpedia */,
 				3E9A72081C325E5600CAD516 /* Products */,
+				E85E19CFE18FE00EF7D9184E /* Pods */,
+				D078882CAD7EAEE7EA285DCB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -377,12 +398,14 @@
 				3E0F65001C48BA0500852420 /* customFilters */,
 				3E9A72251C33A7B100CAD516 /* assets */,
 				3E9A721C1C32660700CAD516 /* components */,
+				98FC6486235BB430004BA892 /* filterattributeview */,
 				3E9A720A1C325E5600CAD516 /* AppDelegate.swift */,
 				3E9A720C1C325E5600CAD516 /* ViewController.swift */,
 				3E9A720E1C325E5600CAD516 /* Main.storyboard */,
 				3E9A72111C325E5600CAD516 /* Assets.xcassets */,
 				3E9A72131C325E5600CAD516 /* LaunchScreen.storyboard */,
 				3E9A72161C325E5600CAD516 /* Info.plist */,
+				9858C8F723467008006A49CF /* Inspectable.swift */,
 			);
 			path = Filterpedia;
 			sourceTree = "<group>";
@@ -397,6 +420,7 @@
 				3E74E7D61C36D5E100F0BCCF /* FilterInputItemRenderer.swift */,
 				3E74E7D41C36D3ED00F0BCCF /* CompositeOverBlackFilter.swift */,
 				3E102B981CDC6B8200903FD2 /* HistogramDisplay.swift */,
+				98380D522353B3F30010D833 /* FilterViewController.swift */,
 			);
 			name = components;
 			sourceTree = "<group>";
@@ -435,6 +459,35 @@
 			name = metalFilters;
 			sourceTree = "<group>";
 		};
+		98FC6486235BB430004BA892 /* filterattributeview */ = {
+			isa = PBXGroup;
+			children = (
+				98FC6484235BB02A004BA892 /* FilterAttributeView.xib */,
+				98FC647E235BAC2E004BA892 /* FilterAttributeView.swift */,
+				98FC6480235BACF2004BA892 /* FilterAttributeCell.xib */,
+				98FC6482235BAE6C004BA892 /* FilterAttributeCell.swift */,
+				98FC648D235D0A94004BA892 /* FilterView.swift */,
+			);
+			path = filterattributeview;
+			sourceTree = "<group>";
+		};
+		D078882CAD7EAEE7EA285DCB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0AA2F503C2126DA41AD632FA /* Pods_Filterpedia.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E85E19CFE18FE00EF7D9184E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				521E4251EC9482B27D04D6AB /* Pods-Filterpedia.debug.xcconfig */,
+				AB963486D1CA9B63B3A4BBDD /* Pods-Filterpedia.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -442,9 +495,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3E9A72191C325E5600CAD516 /* Build configuration list for PBXNativeTarget "Filterpedia" */;
 			buildPhases = (
+				F7E7A8C38DC7F484083D3513 /* [CP] Check Pods Manifest.lock */,
 				3E9A72031C325E5600CAD516 /* Sources */,
 				3E9A72041C325E5600CAD516 /* Frameworks */,
 				3E9A72051C325E5600CAD516 /* Resources */,
+				7BD187F63D96F85DDE17528D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -513,6 +568,7 @@
 				3E7CBC7B1CD64A3C00EBAB07 /* threshold_to_alpha.png in Resources */,
 				3E7CBC7E1CD64A3C00EBAB07 /* vhs_tracking_lines.png in Resources */,
 				3E7CBC5C1CD64A3C00EBAB07 /* chromatic_abberation.png in Resources */,
+				98FC6481235BACF2004BA892 /* FilterAttributeCell.xib in Resources */,
 				3EFF28311CEB5B9D008FA17D /* scatter.jpg in Resources */,
 				3E7CBC751CD64A3C00EBAB07 /* simple_sky.png in Resources */,
 				3E7CBC7C1CD64A3C00EBAB07 /* variable_circular_bokeh.png in Resources */,
@@ -556,6 +612,7 @@
 				3E7CBC791CD64A3C00EBAB07 /* technocolor.png in Resources */,
 				3E7CBC671CD64A3C00EBAB07 /* eight_bit.png in Resources */,
 				3E7CBC781CD64A3C00EBAB07 /* starburst.png in Resources */,
+				98FC6485235BB02A004BA892 /* FilterAttributeView.xib in Resources */,
 				3E7CBCA51CD765D100EBAB07 /* equalization.png in Resources */,
 				3E7CBC7D1CD64A3C00EBAB07 /* variable_hexagonal_bokeh.png in Resources */,
 				3E7CBC701CD64A3C00EBAB07 /* refracted_text.png in Resources */,
@@ -569,6 +626,53 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7BD187F63D96F85DDE17528D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Filterpedia/Pods-Filterpedia-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
+				"${BUILT_PRODUCTS_DIR}/Segmentio/Segmentio.framework",
+				"${BUILT_PRODUCTS_DIR}/SwipeMenuViewController/SwipeMenuViewController.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Segmentio.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeMenuViewController.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Filterpedia/Pods-Filterpedia-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F7E7A8C38DC7F484083D3513 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Filterpedia-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3E9A72031C325E5600CAD516 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -579,6 +683,8 @@
 				3E9CD5041C9C211100C67CB5 /* SobelEdgeDetection.swift in Sources */,
 				3E2760BE1CA5652C00C71B50 /* ModelIOGenerators.swift in Sources */,
 				3ED828441CB8E38400F67BB2 /* CausticRefraction.swift in Sources */,
+				98FC647F235BAC2E004BA892 /* FilterAttributeView.swift in Sources */,
+				98FC648E235D0A94004BA892 /* FilterView.swift in Sources */,
 				3EF5C5951C67B229005071BF /* EightBit.swift in Sources */,
 				3EA75FE51CB6347E00831CC1 /* CMYKRegistrationMismatch.swift in Sources */,
 				3E9A721E1C32662B00CAD516 /* FilterNavigator.swift in Sources */,
@@ -599,6 +705,7 @@
 				3E9A720B1C325E5600CAD516 /* AppDelegate.swift in Sources */,
 				3E1E3E9B1C4FA01200EEF0D8 /* OverlayWidgets.swift in Sources */,
 				3EA75FE01CB5116900831CC1 /* ColorDirectedBlur.swift in Sources */,
+				98FC6483235BAE6C004BA892 /* FilterAttributeCell.swift in Sources */,
 				3E1E3E9F1C4FD31400EEF0D8 /* CRTFilter.swift in Sources */,
 				3E1E3EA41C509A1500EEF0D8 /* KuwaharaFilter.swift in Sources */,
 				3E74E7D51C36D3ED00F0BCCF /* CompositeOverBlackFilter.swift in Sources */,
@@ -611,7 +718,9 @@
 				3E1B545C1C6B054A00F57FF2 /* ThirdPartyFilters.swift in Sources */,
 				3EF73A811C5490540071B584 /* MetalFilters.swift in Sources */,
 				3E9A72241C33146000CAD516 /* VectorSlider.swift in Sources */,
+				98380D532353B3F30010D833 /* FilterViewController.swift in Sources */,
 				3E74E7D91C36D61000F0BCCF /* Assets.swift in Sources */,
+				9858C8F823467008006A49CF /* Inspectable.swift in Sources */,
 				3E0CFC631C8C01EA005CBC64 /* RefractedTextFilter.swift in Sources */,
 				3EB3B0291CB395710053BB5F /* Extensions.swift in Sources */,
 				3E8B99CC1CB8B54D007EA0CC /* VoronoiNoise.swift in Sources */,
@@ -748,6 +857,7 @@
 		};
 		3E9A721A1C325E5600CAD516 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 521E4251EC9482B27D04D6AB /* Pods-Filterpedia.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = YMT6QQ8EK5;
@@ -763,6 +873,7 @@
 		};
 		3E9A721B1C325E5600CAD516 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB963486D1CA9B63B3A4BBDD /* Pods-Filterpedia.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = YMT6QQ8EK5;

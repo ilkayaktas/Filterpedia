@@ -20,7 +20,11 @@ class ViewController: UIViewController
         view.addSubview(filterNavigator)
         view.addSubview(filterDetail)
         
+        
+        
         filterNavigator.delegate = self
+        
+        
     }
 
     override func viewDidLayoutSubviews()

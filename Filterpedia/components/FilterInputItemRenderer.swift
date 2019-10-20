@@ -19,7 +19,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 import UIKit
-
+import Hue
 
 class FilterInputItemRenderer: UITableViewCell
 {
@@ -28,7 +28,15 @@ class FilterInputItemRenderer: UITableViewCell
     let vectorSlider = VectorSlider()
     let imagesSegmentedControl = UISegmentedControl(items: assetLabels)
     
-    let titleLabel = UILabel()
+    let titleLabel : UILabel =
+    {
+        let label = UILabel()
+
+        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.textColor = UIColor(hex:"#8A8A8A")
+
+        return label
+    }()
     
     let shapeLayer: CAShapeLayer =
     {

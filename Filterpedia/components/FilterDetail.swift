@@ -37,6 +37,12 @@ class FilterDetail: UIView
         
         return layer
     }()
+
+    let collectionView : FilterAttributeView = {
+        let collectionView = Bundle.main.loadNibNamed("FilterAttributeView", owner: self, options: nil)?.first as? FilterAttributeView
+        return collectionView!
+        
+    }()
     
     let filterAttributesTableView: UITableView =
     {
@@ -50,6 +56,15 @@ class FilterDetail: UIView
     }()
     
     let scrollView = UIScrollView()
+    
+    lazy var resetButton: UIButton =
+    {
+        let reset = UIButton()
+        reset.setTitle("Reset", for: .normal)
+        reset.setTitleColor(UIColor.systemBlue, for: .normal)
+        reset.addTarget(self, action: #selector(FilterDetail.resetPicture), for: .touchDown)
+        return reset
+    }()
     
     lazy var histogramToggleSwitch: UISwitch =
     {
@@ -127,6 +142,7 @@ class FilterDetail: UIView
         didSet
         {
             updateFromFilterName()
+            collectionView.addFilterAttr(filterAttributesTableView: filterAttributesTableView)
         }
     }
     
@@ -135,6 +151,7 @@ class FilterDetail: UIView
     /// User defined filter parameter values
     fileprivate var filterParameterValues: [String: AnyObject] = [kCIInputImageKey: assets.first!.ciImage]
     
+    
     override init(frame: CGRect)
     {
         super.init(frame: frame)
@@ -142,7 +159,8 @@ class FilterDetail: UIView
         filterAttributesTableView.dataSource = self
         filterAttributesTableView.delegate = self
  
-        addSubview(filterAttributesTableView)
+      //  addSubview(filterAttributesTableView)
+        addSubview(collectionView)
         
         addSubview(scrollView)
         scrollView.addSubview(imageView)
@@ -157,6 +175,7 @@ class FilterDetail: UIView
         addSubview(histogramDisplay)
         
         addSubview(histogramToggleSwitch)
+        addSubview(resetButton)
         
         imageView.addSubview(activityIndicator)
         
@@ -170,7 +189,14 @@ class FilterDetail: UIView
     
     @objc func toggleHistogramView()
     {
-       histogramDisplayHidden = !histogramToggleSwitch.isOn
+        histogramDisplayHidden = !histogramToggleSwitch.isOn
+    }
+    
+    @objc func resetPicture()
+    {
+        print("Resetlendi!")
+        filterParameterValues[kCIInputImageKey] = assets.first!.ciImage
+        imageView.image = UIImage(ciImage: assets.first!.ciImage)
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -184,12 +210,14 @@ class FilterDetail: UIView
             return
         }
         
+        // If previously any subview is added (RGBChannelToneCurve, CIToneCurve or CMYKToneCurves), remove them.
         imageView.subviews
             .filter({ $0 is FilterAttributesDisplayable})
             .forEach({ $0.removeFromSuperview() })
         
         if let widget = OverlayWidgets.getOverlayWidgetForFilter(filterName: filterName) as? UIView
         {
+            // Add RGBChannelToneCurve, CIToneCurve or CMYKToneCurves as subview
             imageView.addSubview(widget)
             
             widget.frame = imageView.bounds
@@ -221,6 +249,7 @@ class FilterDetail: UIView
                 // default image
                 if let className = attribute[kCIAttributeClass] as? String, className == "CIImage" && filterParameterValues[inputKey] == nil
                 {
+                    print("Fotoğraf değişti")
                     filterParameterValues[inputKey] = assets.first!.ciImage
                 }
                 
@@ -243,8 +272,7 @@ class FilterDetail: UIView
 
     // MARK: applyFilter
     
-    func applyFilter()
-    {
+    func applyFilter(){
         guard !busy else
         {
             pending = true
@@ -270,9 +298,10 @@ class FilterDetail: UIView
             
             for (key, value) in self.filterParameterValues where currentFilter.inputKeys.contains(key)
             {
+                print("\(key) \(value)")
                 currentFilter.setValue(value, forKey: key)
             }
-            
+                        
             let outputImage = currentFilter.outputImage!
             let finalImage: CGImage
   
@@ -321,6 +350,7 @@ class FilterDetail: UIView
                 
                 self.imageView.image = UIImage(cgImage: finalImage)
                 self.busy = false
+                self.filterParameterValues[kCIInputImageKey] = CIImage(cgImage: finalImage)
                 
                 if self.pending
                 {
@@ -348,11 +378,17 @@ class FilterDetail: UIView
             width: scrollView.frame.width,
             height: scrollView.frame.height)
         
-        filterAttributesTableView.frame = CGRect(x: 0,
+        /*filterAttributesTableView.frame = CGRect(x: 0,
             y: twoThirdHeight,
             width: frame.width,
             height: thirdHeight)
+        */
         
+        collectionView.frame = CGRect(x: 0,
+            y: twoThirdHeight,
+            width: frame.width,
+            height: thirdHeight)
+            
         histogramDisplay.frame = CGRect(
             x: 0,
             y: thirdHeight,
@@ -364,6 +400,13 @@ class FilterDetail: UIView
             y: 0,
             width: intrinsicContentSize.width,
             height: intrinsicContentSize.height)
+        
+        resetButton.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 30
+        )
         
         filterAttributesTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
@@ -383,7 +426,7 @@ extension FilterDetail: UITableViewDelegate
 {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 85
+        return 60 // height for cell
     }
 }
 
