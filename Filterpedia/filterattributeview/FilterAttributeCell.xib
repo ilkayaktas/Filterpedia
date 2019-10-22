@@ -16,18 +16,6 @@
             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="khN-fW-5DU">
                 <rect key="frame" x="0.0" y="0.0" width="286" height="268"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KkC-qh-aGV">
-                        <rect key="frame" x="0.0" y="0.0" width="286" height="268"/>
-                        <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                </subviews>
-                <constraints>
-                    <constraint firstAttribute="trailing" secondItem="KkC-qh-aGV" secondAttribute="trailing" id="15V-IQ-xAy"/>
-                    <constraint firstItem="KkC-qh-aGV" firstAttribute="top" secondItem="khN-fW-5DU" secondAttribute="top" id="Bdv-QQ-lO4"/>
-                    <constraint firstAttribute="bottom" secondItem="KkC-qh-aGV" secondAttribute="bottom" id="F3c-PG-Pb5"/>
-                    <constraint firstItem="KkC-qh-aGV" firstAttribute="leading" secondItem="khN-fW-5DU" secondAttribute="leading" id="mIK-Je-bsT"/>
-                </constraints>
             </collectionViewCellContentView>
             <size key="customSize" width="286" height="268"/>
             <point key="canvasLocation" x="298.55072463768118" y="580.58035714285711"/>

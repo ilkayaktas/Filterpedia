@@ -31,10 +31,11 @@ class FilterAttributeView : UIView, UICollectionViewDelegate, UICollectionViewDa
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! FilterAttributeCell
         if(filterList.count > indexPath.row){
             let tableView = filterList[indexPath.row]
+       //     tableView.backgroundColor = UIColor.green
             cell.addSubview(tableView)
-
-            cell.backgroundColor = UIColor.blue
-            tableView.translatesAutoresizingMaskIntoConstraints = false
+            tableView.frame = cell.frame
+        //    cell.backgroundColor = UIColor.blue
+    //        tableView.translatesAutoresizingMaskIntoConstraints = true
             // Make my custom view center on filterDetail view
    //         cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[view]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["view":collectionView]))
    //         cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[view]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["view":collectionView]))
