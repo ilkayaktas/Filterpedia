@@ -35,12 +35,22 @@ class FilterAttributeView : UIView, UICollectionViewDelegate, UICollectionViewDa
         if(filterList.count > indexPath.row){
             let tableView = filterList[indexPath.row]
 
-            print("Row oluşturuluyor \(indexPath.row) \(tableView.filterName!) \(cell.frame) ")
-            tableView.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: cell.frame.width, height: 30))
+            label.text = tableView.filterName
+            label.textAlignment = .center
+            label.font = UIFont(name: "Futura", size: 18)
+            label.backgroundColor = UIColor(hex: "C6C6C6")
+            
+            tableView.frame = CGRect(x: 0, y: 30, width: cell.frame.width, height: cell.frame.height)
             
             tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
             tableView.reloadData()
+            
+            cell.borderWidth = 2
+            cell.borderColor = UIColor(hex: "C6C6C6")
+            cell.layer.cornerRadius = 15
 
+            cell.addSubview(label)
             cell.addSubview(tableView)
 
         }

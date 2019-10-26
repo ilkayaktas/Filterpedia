@@ -124,7 +124,6 @@
 		98FC6481235BACF2004BA892 /* FilterAttributeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98FC6480235BACF2004BA892 /* FilterAttributeCell.xib */; };
 		98FC6483235BAE6C004BA892 /* FilterAttributeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FC6482235BAE6C004BA892 /* FilterAttributeCell.swift */; };
 		98FC6485235BB02A004BA892 /* FilterAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 98FC6484235BB02A004BA892 /* FilterAttributeView.xib */; };
-		98FC648E235D0A94004BA892 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FC648D235D0A94004BA892 /* FilterView.swift */; };
 		D235CB9C0DCA40A47699E2B9 /* Pods_Filterpedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AA2F503C2126DA41AD632FA /* Pods_Filterpedia.framework */; };
 /* End PBXBuildFile section */
 
@@ -250,7 +249,6 @@
 		98FC6480235BACF2004BA892 /* FilterAttributeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterAttributeCell.xib; sourceTree = "<group>"; };
 		98FC6482235BAE6C004BA892 /* FilterAttributeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAttributeCell.swift; sourceTree = "<group>"; };
 		98FC6484235BB02A004BA892 /* FilterAttributeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterAttributeView.xib; sourceTree = "<group>"; };
-		98FC648D235D0A94004BA892 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		AB963486D1CA9B63B3A4BBDD /* Pods-Filterpedia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Filterpedia.release.xcconfig"; path = "Target Support Files/Pods-Filterpedia/Pods-Filterpedia.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -469,7 +467,6 @@
 				98FC647E235BAC2E004BA892 /* FilterAttributeView.swift */,
 				98FC6480235BACF2004BA892 /* FilterAttributeCell.xib */,
 				98FC6482235BAE6C004BA892 /* FilterAttributeCell.swift */,
-				98FC648D235D0A94004BA892 /* FilterView.swift */,
 			);
 			path = filterattributeview;
 			sourceTree = "<group>";
@@ -688,7 +685,6 @@
 				3ED828441CB8E38400F67BB2 /* CausticRefraction.swift in Sources */,
 				98FC647F235BAC2E004BA892 /* FilterAttributeView.swift in Sources */,
 				98F252A523623EB300CD9E6F /* FilterAttributeTable.swift in Sources */,
-				98FC648E235D0A94004BA892 /* FilterView.swift in Sources */,
 				3EF5C5951C67B229005071BF /* EightBit.swift in Sources */,
 				3EA75FE51CB6347E00831CC1 /* CMYKRegistrationMismatch.swift in Sources */,
 				3E9A721E1C32662B00CAD516 /* FilterNavigator.swift in Sources */,
