@@ -44,17 +44,6 @@ class FilterDetail: UIView
         
     }()
     
-    let filterAttributesTableView: UITableView =
-    {
-        let tableView = UITableView(frame: CGRect.zero,
-            style: UITableView.Style.plain)
-        
-        tableView.register(FilterInputItemRenderer.self,
-            forCellReuseIdentifier: "FilterInputItemRenderer")
-        
-        return tableView
-    }()
-    
     let scrollView = UIScrollView()
     
     lazy var resetButton: UIButton =
@@ -142,24 +131,41 @@ class FilterDetail: UIView
         didSet
         {
             updateFromFilterName()
+            
+            let filterAttributesTableView: FilterAttributeTable =
+            {
+                let tableView = FilterAttributeTable(frame: CGRect.zero,
+                    style: UITableView.Style.plain)
+                
+                tableView.filterName = self.filterName
+                tableView.currentFilter = paramsDict[self.filterName!]
+                    
+                tableView.register(FilterInputItemRenderer.self,
+                    forCellReuseIdentifier: "FilterInputItemRenderer")
+                
+                tableView.delegate = self
+                tableView.dataSource = self
+                
+                return tableView
+            }()
+
             collectionView.addFilterAttr(filterAttributesTableView: filterAttributesTableView)
+            
         }
     }
     
-    fileprivate var currentFilter: CIFilter?
+    // Define a list of parameters for multi filter view
+    // fileprivate var currentFilter: CIFilter?
+    
+    var paramsDict = [String: CIFilter]()
     
     /// User defined filter parameter values
     fileprivate var filterParameterValues: [String: AnyObject] = [kCIInputImageKey: assets.first!.ciImage]
-    
     
     override init(frame: CGRect)
     {
         super.init(frame: frame)
         
-        filterAttributesTableView.dataSource = self
-        filterAttributesTableView.delegate = self
- 
-      //  addSubview(filterAttributesTableView)
         addSubview(collectionView)
         
         addSubview(scrollView)
@@ -194,7 +200,7 @@ class FilterDetail: UIView
     
     @objc func resetPicture()
     {
-        print("Resetlendi!")
+        print("XXXXX Resetlendi!")
         filterParameterValues[kCIInputImageKey] = assets.first!.ciImage
         imageView.image = UIImage(ciImage: assets.first!.ciImage)
     }
@@ -223,10 +229,9 @@ class FilterDetail: UIView
             widget.frame = imageView.bounds
         }
         
-        currentFilter = filter
-        fixFilterParameterValues()
+        paramsDict[filterName] = filter
         
-        filterAttributesTableView.reloadData()
+        fixFilterParameterValues()
         
         applyFilter()
     }
@@ -236,7 +241,7 @@ class FilterDetail: UIView
     /// filterParameterValues won't break the new filter.
     func fixFilterParameterValues()
     {
-        guard let currentFilter = currentFilter else
+        guard let currentFilter = paramsDict[filterName!] else
         {
             return
         }
@@ -249,7 +254,7 @@ class FilterDetail: UIView
                 // default image
                 if let className = attribute[kCIAttributeClass] as? String, className == "CIImage" && filterParameterValues[inputKey] == nil
                 {
-                    print("Fotoğraf değişti")
+                    print("XXXXX Fotoğraf değişti")
                     filterParameterValues[inputKey] = assets.first!.ciImage
                 }
                 
@@ -271,7 +276,6 @@ class FilterDetail: UIView
     }
 
     // MARK: applyFilter
-    
     func applyFilter(){
         guard !busy else
         {
@@ -279,7 +283,7 @@ class FilterDetail: UIView
             return
         }
         
-        guard let currentFilter = self.currentFilter else
+        guard let currentFilter = paramsDict[filterName!] else
         {
             return
         }
@@ -378,12 +382,6 @@ class FilterDetail: UIView
             width: scrollView.frame.width,
             height: scrollView.frame.height)
         
-        /*filterAttributesTableView.frame = CGRect(x: 0,
-            y: twoThirdHeight,
-            width: frame.width,
-            height: thirdHeight)
-        */
-        
         collectionView.frame = CGRect(x: 0,
             y: twoThirdHeight,
             width: frame.width,
@@ -408,8 +406,6 @@ class FilterDetail: UIView
             height: 30
         )
         
-        filterAttributesTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        
         activityIndicator.frame = imageView.bounds
         
         let path = UIBezierPath()
@@ -418,6 +414,10 @@ class FilterDetail: UIView
         
         shapeLayer.path = path.cgPath
     }
+}
+
+extension FilterDetail: UIScrollViewDelegate{
+    
 }
 
 // MARK: UITableViewDelegate extension
@@ -436,7 +436,8 @@ extension FilterDetail: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return currentFilter?.inputKeys.count ?? 0
+        let tb = tableView as! FilterAttributeTable
+        return tb.currentFilter!.inputKeys.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -444,9 +445,11 @@ extension FilterDetail: UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "FilterInputItemRenderer",
             for: indexPath) as! FilterInputItemRenderer
  
-        if let inputKey = currentFilter?.inputKeys[indexPath.row],
-            let attribute = currentFilter?.attributes[inputKey] as? [String : AnyObject]
+        let tb = tableView as! FilterAttributeTable
+        let inputKey = tb.currentFilter!.inputKeys[indexPath.row]
+        if let attribute = tb.currentFilter!.attributes[inputKey] as? [String : AnyObject]
         {
+            print("XXXXX Table row \(indexPath.row) \(inputKey)")
             cell.detail = (inputKey: inputKey,
                 attribute: attribute,
                 filterParameterValues: filterParameterValues)
@@ -455,6 +458,11 @@ extension FilterDetail: UITableViewDataSource
         cell.delegate = self
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool
+    {
+        return false
     }
 }
 
@@ -467,13 +475,10 @@ extension FilterDetail: FilterInputItemRendererDelegate
         if let key = forKey, let value = didChangeValue
         {
             filterParameterValues[key] = value
-            
             applyFilter()
         }
     }
-    
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool
-    {
-        return false
-    }
+
 }
+
+

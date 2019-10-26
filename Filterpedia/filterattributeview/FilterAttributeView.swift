@@ -13,7 +13,7 @@ class FilterAttributeView : UIView, UICollectionViewDelegate, UICollectionViewDa
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    var filterList = Array<UITableView>()
+    var filterList = Array<FilterAttributeTable>()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,22 +24,27 @@ class FilterAttributeView : UIView, UICollectionViewDelegate, UICollectionViewDa
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("Filter count \(filterList.count)")
         return filterList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! FilterAttributeCell
+        
+        
         if(filterList.count > indexPath.row){
             let tableView = filterList[indexPath.row]
-       //     tableView.backgroundColor = UIColor.green
+
+            print("Row oluşturuluyor \(indexPath.row) \(tableView.filterName!) \(cell.frame) ")
+            tableView.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
+            
+            tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+            tableView.reloadData()
+
             cell.addSubview(tableView)
-            tableView.frame = cell.frame
-        //    cell.backgroundColor = UIColor.blue
-    //        tableView.translatesAutoresizingMaskIntoConstraints = true
-            // Make my custom view center on filterDetail view
-   //         cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[view]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["view":collectionView]))
-   //         cell.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[view]-0-|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["view":collectionView]))
+
         }
+        
         return cell
     }
     
@@ -47,7 +52,7 @@ class FilterAttributeView : UIView, UICollectionViewDelegate, UICollectionViewDa
         return CGSize(width: collectionView.frame.size.width - 50, height: collectionView.frame.size.height)
     }
     
-    func addFilterAttr(filterAttributesTableView: UITableView){
+    func addFilterAttr(filterAttributesTableView: FilterAttributeTable){
         filterList.append(filterAttributesTableView)
         collectionView.reloadData()
     }

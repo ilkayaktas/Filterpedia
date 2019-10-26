@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class FilterAttributeCell: UICollectionViewCell {
+class FilterAttributeCell: UICollectionViewCell {    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
