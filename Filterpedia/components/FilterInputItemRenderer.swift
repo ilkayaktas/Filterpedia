@@ -27,6 +27,7 @@ class FilterInputItemRenderer: UITableViewCell
     let slider = LabelledSlider()
     let vectorSlider = VectorSlider()
     let imagesSegmentedControl = UISegmentedControl(items: assetLabels)
+    var filterName : String?
     
     let titleLabel : UILabel =
     {
@@ -109,7 +110,7 @@ class FilterInputItemRenderer: UITableViewCell
     {
         didSet
         {
-            delegate?.filterInputItemRenderer(self, didChangeValue: value, forKey: inputKey)
+            delegate?.filterInputItemRenderer(filterName: filterName!, self, didChangeValue: value, forKey: inputKey)
             
             if let value = value
             {
@@ -329,5 +330,5 @@ class FilterInputItemRenderer: UITableViewCell
 
 protocol FilterInputItemRendererDelegate: class
 {
-    func filterInputItemRenderer(_ filterInputItemRenderer: FilterInputItemRenderer, didChangeValue: AnyObject?, forKey: String?)
+    func filterInputItemRenderer(filterName : String, _ filterInputItemRenderer: FilterInputItemRenderer, didChangeValue: AnyObject?, forKey: String?)
 }

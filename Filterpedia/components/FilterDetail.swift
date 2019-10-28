@@ -40,6 +40,8 @@ class FilterDetail: UIView
 
     let collectionView : FilterAttributeView = {
         let collectionView = Bundle.main.loadNibNamed("FilterAttributeView", owner: self, options: nil)?.first as? FilterAttributeView
+        
+        collectionView?.collectionView.allowsSelection = false
         return collectionView!
         
     }()
@@ -68,6 +70,16 @@ class FilterDetail: UIView
         return toggle
     }()
     
+    var isPinned = false
+    var pinButton : UIButton =
+    {
+        let pinButton = UIButton()
+        pinButton.setImage(UIImage(named: "unpin"), for: .normal)
+        pinButton.addTarget(self, action: #selector(FilterDetail.pinCollectionView), for: .touchDown)
+        return pinButton
+    }()
+    
+
     let histogramDisplay = HistogramDisplay()
     
     var histogramDisplayHidden = true
@@ -184,6 +196,7 @@ class FilterDetail: UIView
         
         addSubview(histogramToggleSwitch)
         addSubview(resetButton)
+        addSubview(pinButton)
         
         imageView.addSubview(activityIndicator)
         
@@ -204,6 +217,22 @@ class FilterDetail: UIView
     {
         filterParameterMap[filterName!]!.filterParameterValues[kCIInputImageKey] = assets.first!.ciImage
         imageView.image = UIImage(ciImage: assets.first!.ciImage)
+    }
+    
+    @objc func pinCollectionView(){
+        if(isPinned){
+            isPinned = false
+            collectionView.collectionView.isScrollEnabled = true
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                self.pinButton.setImage(UIImage(named: "unpin"), for: .normal)
+                })
+        } else{
+            isPinned = true
+            collectionView.collectionView.isScrollEnabled = false
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                self.pinButton.setImage(UIImage(named: "pin"), for: .normal)
+            })
+        }
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -255,7 +284,6 @@ class FilterDetail: UIView
                 // default image
                 if let className = attribute[kCIAttributeClass] as? String, className == "CIImage" && filterParameterMap[filterName!]!.filterParameterValues[inputKey] == nil
                 {
-           //         print("XXXXX Fotoğraf değişti")
                     filterParameterMap[filterName!]!.filterParameterValues[inputKey] = assets.first!.ciImage
                 }
                 
@@ -406,6 +434,12 @@ class FilterDetail: UIView
             width: 100,
             height: 30
         )
+        pinButton.frame = CGRect(
+            x: 10,
+            y: twoThirdHeight - 35,
+            width: 30,
+            height: 30
+        )
         
         activityIndicator.frame = imageView.bounds
         
@@ -450,7 +484,7 @@ extension FilterDetail: UITableViewDataSource
         let inputKey = tb.currentFilter!.inputKeys[indexPath.row]
         if let attribute = tb.currentFilter!.attributes[inputKey] as? [String : AnyObject]
         {
-        //    print("XXXXX Table row \(indexPath.row) \(inputKey)")
+            cell.filterName = self.filterName
             cell.detail = (inputKey: inputKey,
                 attribute: attribute,
                 filterParameterValues: filterParameterMap[filterName!]!.filterParameterValues)
@@ -471,11 +505,18 @@ extension FilterDetail: UITableViewDataSource
 
 extension FilterDetail: FilterInputItemRendererDelegate
 {
-    func filterInputItemRenderer(_ filterInputItemRenderer: FilterInputItemRenderer, didChangeValue: AnyObject?, forKey: String?)
+    func filterInputItemRenderer(filterName : String, _ filterInputItemRenderer: FilterInputItemRenderer, didChangeValue: AnyObject?, forKey: String?)
     {
         if let key = forKey, let value = didChangeValue
         {
-            filterParameterMap[filterName!]!.filterParameterValues[key] = value
+            filterParameterMap[filterName]!.filterParameterValues[key] = value
+            
+            for fn in filterParameterMap.keys {
+                print("\(fn)")
+                for filterParams in filterParameterMap[fn]!.filterParameterValues.keys{
+                    print("     \(filterParams)  \(filterParameterMap[fn]!.filterParameterValues[filterParams])")
+                }
+            }
             applyFilter()
         }
     }
