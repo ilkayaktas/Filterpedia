@@ -200,7 +200,6 @@ class FilterDetail: UIView
     
     @objc func resetPicture()
     {
-        print("XXXXX Resetlendi!")
         filterParameterValues[kCIInputImageKey] = assets.first!.ciImage
         imageView.image = UIImage(ciImage: assets.first!.ciImage)
     }
@@ -298,7 +297,7 @@ class FilterDetail: UIView
  
         queue.async
         {
-            let startTime = CFAbsoluteTimeGetCurrent()
+//            let startTime = CFAbsoluteTimeGetCurrent()
             
             for (key, value) in self.filterParameterValues where currentFilter.inputKeys.contains(key)
             {
@@ -342,8 +341,8 @@ class FilterDetail: UIView
                     from: self.rect640x640)!
             }
             
-            let endTime = (CFAbsoluteTimeGetCurrent() - startTime)
-            print(self.filterName!, "execution time", endTime)
+//            let endTime = (CFAbsoluteTimeGetCurrent() - startTime)
+//            print(self.filterName!, "execution time", endTime)
             
             DispatchQueue.main.async
             {
@@ -354,7 +353,7 @@ class FilterDetail: UIView
                 
                 self.imageView.image = UIImage(cgImage: finalImage)
                 self.busy = false
-                self.filterParameterValues[kCIInputImageKey] = CIImage(cgImage: finalImage)
+                //self.filterParameterValues[kCIInputImageKey] = CIImage(cgImage: finalImage)
                 
                 if self.pending
                 {
