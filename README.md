@@ -1,7 +1,7 @@
 # Filterpedia
 **This is a extended version of Filterpedia repository. You can select multiple filters and apply result on same photo.**
 
-![screenshot](/Filterpedia/assets/screenshot.png)
+![screenshot](/Filterpedia/assets/screenshot.jpeg)
 
 *Filterpedia* is an iPad app for exploring (almost) the entire range of image filters offered by Apple's Core Image framework. It is designed as a companion app to my upcoming book, [_Core Image for Swift_](https://itunes.apple.com/de/book/core-image-for-swift/id1073029980?l=en&mt=11) which is due for publication in February 2016. 
 
