@@ -142,7 +142,6 @@ class FilterDetail: UIView
     {
         didSet
         {
-    //        filterParameterMap[self.filterName!] = FilterParameterValue()
             
             updateFromFilterName()
             
@@ -169,13 +168,8 @@ class FilterDetail: UIView
     }
     
     // Define a list of parameters for multi filter view
-    // fileprivate var currentFilter: CIFilter?
   
     var filterMap = [String: FilterDataContainer]()
-//    var currentFilterMap = [String: CIFilter]()
-//    var filterParameterMap = [String: FilterParameterValue] ()
-    /// User defined filter parameter values
-  //  fileprivate var filterParameterValues: [String: AnyObject] = [kCIInputImageKey: assets.first!.ciImage]
     
     override init(frame: CGRect)
     {
@@ -261,7 +255,6 @@ class FilterDetail: UIView
         }
         
         filterMap[filterName] = FilterDataContainer(filterName, filter)
-//        currentFilterMap[filterName] = filter
         
         fixFilterParameterValues()
         
@@ -385,7 +378,6 @@ class FilterDetail: UIView
                 
                 self.imageView.image = UIImage(cgImage: finalImage)
                 self.busy = false
-                //self.filterParameterValues[kCIInputImageKey] = CIImage(cgImage: finalImage)
                 
                 if self.pending
                 {
@@ -474,6 +466,7 @@ extension FilterDetail: UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         let tb = tableView as! FilterAttributeTable
+//        print("Cell size \(tb.currentFilter!.inputKeys.count)")
         return tb.currentFilter!.inputKeys.count
     }
     
@@ -488,10 +481,11 @@ extension FilterDetail: UITableViewDataSource
         let inputKey = tb.currentFilter!.inputKeys[indexPath.row]
         if let attribute = tb.currentFilter!.attributes[inputKey] as? [String : AnyObject]
         {
-            cell.filterName = self.filterName
+//            print("\(tb.filterName!) cell içeriği \(inputKey) ")
+            cell.filterName = tb.filterName
             cell.detail = (inputKey: inputKey,
                 attribute: attribute,
-                filterParameterValues: filterMap[filterName!]!.filterParameterValues)
+                filterParameterValues: filterMap[tb.filterName!]!.filterParameterValues)
         }
         
         
@@ -513,7 +507,6 @@ extension FilterDetail: FilterInputItemRendererDelegate
         if let key = forKey, let value = didChangeValue
         {
             filterMap[filterInputItemRenderer.filterName!]!.filterParameterValues[key] = value
-            print("_\(filterInputItemRenderer.filterName!) \(key) \(value)")
             for fn in filterMap.keys {
                 print("\(fn)")
                 for filterParams in filterMap[fn]!.filterParameterValues.keys{
