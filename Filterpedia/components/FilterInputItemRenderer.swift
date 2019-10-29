@@ -110,7 +110,7 @@ class FilterInputItemRenderer: UITableViewCell
     {
         didSet
         {
-            delegate?.filterInputItemRenderer(filterName: filterName!, self, didChangeValue: value, forKey: inputKey)
+            delegate?.filterInputItemRenderer(self, didChangeValue: value, forKey: inputKey)
             
             if let value = value
             {
@@ -330,5 +330,5 @@ class FilterInputItemRenderer: UITableViewCell
 
 protocol FilterInputItemRendererDelegate: class
 {
-    func filterInputItemRenderer(filterName : String, _ filterInputItemRenderer: FilterInputItemRenderer, didChangeValue: AnyObject?, forKey: String?)
+    func filterInputItemRenderer(_ filterInputItemRenderer: FilterInputItemRenderer, didChangeValue: AnyObject?, forKey: String?)
 }

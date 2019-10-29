@@ -142,7 +142,7 @@ class FilterDetail: UIView
     {
         didSet
         {
-            filterParameterMap[self.filterName!] = FilterParameterValue()
+    //        filterParameterMap[self.filterName!] = FilterParameterValue()
             
             updateFromFilterName()
             
@@ -152,7 +152,7 @@ class FilterDetail: UIView
                     style: UITableView.Style.plain)
                 
                 tableView.filterName = self.filterName
-                tableView.currentFilter = currentFilterMap[self.filterName!]
+                tableView.currentFilter = filterMap[self.filterName!]?.filter
                     
                 tableView.register(FilterInputItemRenderer.self,
                     forCellReuseIdentifier: "FilterInputItemRenderer")
@@ -170,9 +170,10 @@ class FilterDetail: UIView
     
     // Define a list of parameters for multi filter view
     // fileprivate var currentFilter: CIFilter?
-    
-    var currentFilterMap = [String: CIFilter]()
-    var filterParameterMap = [String: FilterParameterValue] ()
+  
+    var filterMap = [String: FilterDataContainer]()
+//    var currentFilterMap = [String: CIFilter]()
+//    var filterParameterMap = [String: FilterParameterValue] ()
     /// User defined filter parameter values
   //  fileprivate var filterParameterValues: [String: AnyObject] = [kCIInputImageKey: assets.first!.ciImage]
     
@@ -215,7 +216,7 @@ class FilterDetail: UIView
     
     @objc func resetPicture()
     {
-        filterParameterMap[filterName!]!.filterParameterValues[kCIInputImageKey] = assets.first!.ciImage
+        filterMap[filterName!]!.filterParameterValues[kCIInputImageKey] = assets.first!.ciImage
         imageView.image = UIImage(ciImage: assets.first!.ciImage)
     }
     
@@ -259,7 +260,8 @@ class FilterDetail: UIView
             widget.frame = imageView.bounds
         }
         
-        currentFilterMap[filterName] = filter
+        filterMap[filterName] = FilterDataContainer(filterName, filter)
+//        currentFilterMap[filterName] = filter
         
         fixFilterParameterValues()
         
@@ -271,7 +273,7 @@ class FilterDetail: UIView
     /// filterParameterValues won't break the new filter.
     func fixFilterParameterValues()
     {
-        guard let currentFilter = currentFilterMap[filterName!] else
+        guard let currentFilter = filterMap[filterName!]!.filter else
         {
             return
         }
@@ -282,23 +284,23 @@ class FilterDetail: UIView
             if let attribute = attributes[inputKey] as? [String : AnyObject]
             {
                 // default image
-                if let className = attribute[kCIAttributeClass] as? String, className == "CIImage" && filterParameterMap[filterName!]!.filterParameterValues[inputKey] == nil
+                if let className = attribute[kCIAttributeClass] as? String, className == "CIImage" && filterMap[filterName!]!.filterParameterValues[inputKey] == nil
                 {
-                    filterParameterMap[filterName!]!.filterParameterValues[inputKey] = assets.first!.ciImage
+                    filterMap[filterName!]!.filterParameterValues[inputKey] = assets.first!.ciImage
                 }
                 
                 // ensure previous values don't exceed kCIAttributeSliderMax for this filter
                 if let maxValue = attribute[kCIAttributeSliderMax] as? Float,
-                    let filterParameterValue = filterParameterMap[filterName!]!.filterParameterValues[inputKey] as? Float, filterParameterValue > maxValue
+                    let filterParameterValue = filterMap[filterName!]!.filterParameterValues[inputKey] as? Float, filterParameterValue > maxValue
                 {
-                    filterParameterMap[filterName!]!.filterParameterValues[inputKey] = maxValue as AnyObject
+                    filterMap[filterName!]!.filterParameterValues[inputKey] = maxValue as AnyObject
                 }
                 
                 // ensure vector is correct length
                 if let defaultVector = attribute[kCIAttributeDefault] as? CIVector,
-                    let filterParameterValue = filterParameterMap[filterName!]!.filterParameterValues[inputKey] as? CIVector, defaultVector.count != filterParameterValue.count
+                    let filterParameterValue = filterMap[filterName!]!.filterParameterValues[inputKey] as? CIVector, defaultVector.count != filterParameterValue.count
                 {
-                    filterParameterMap[filterName!]!.filterParameterValues[inputKey] = defaultVector
+                    filterMap[filterName!]!.filterParameterValues[inputKey] = defaultVector
                 }
             }
         }
@@ -312,7 +314,7 @@ class FilterDetail: UIView
             return
         }
         
-        guard let currentFilter = currentFilterMap[filterName!] else
+        guard let currentFilter = filterMap[filterName!]?.filter else
         {
             return
         }
@@ -329,7 +331,7 @@ class FilterDetail: UIView
         {
 //            let startTime = CFAbsoluteTimeGetCurrent()
             
-            for (key, value) in self.filterParameterMap[self.filterName!]!.filterParameterValues where currentFilter.inputKeys.contains(key)
+            for (key, value) in self.filterMap[self.filterName!]!.filterParameterValues where currentFilter.inputKeys.contains(key)
             {
       //          print("\(key) \(value)")
                 currentFilter.setValue(value, forKey: key)
@@ -480,6 +482,8 @@ extension FilterDetail: UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "FilterInputItemRenderer",
             for: indexPath) as! FilterInputItemRenderer
  
+        cell.delegate = self
+
         let tb = tableView as! FilterAttributeTable
         let inputKey = tb.currentFilter!.inputKeys[indexPath.row]
         if let attribute = tb.currentFilter!.attributes[inputKey] as? [String : AnyObject]
@@ -487,10 +491,9 @@ extension FilterDetail: UITableViewDataSource
             cell.filterName = self.filterName
             cell.detail = (inputKey: inputKey,
                 attribute: attribute,
-                filterParameterValues: filterParameterMap[filterName!]!.filterParameterValues)
+                filterParameterValues: filterMap[filterName!]!.filterParameterValues)
         }
         
-        cell.delegate = self
         
         return cell
     }
@@ -505,16 +508,20 @@ extension FilterDetail: UITableViewDataSource
 
 extension FilterDetail: FilterInputItemRendererDelegate
 {
-    func filterInputItemRenderer(filterName : String, _ filterInputItemRenderer: FilterInputItemRenderer, didChangeValue: AnyObject?, forKey: String?)
+    func filterInputItemRenderer(_ filterInputItemRenderer: FilterInputItemRenderer, didChangeValue: AnyObject?, forKey: String?)
     {
         if let key = forKey, let value = didChangeValue
         {
-            filterParameterMap[filterName]!.filterParameterValues[key] = value
-            
-            for fn in filterParameterMap.keys {
+            filterMap[filterInputItemRenderer.filterName!]!.filterParameterValues[key] = value
+            print("_\(filterInputItemRenderer.filterName!) \(key) \(value)")
+            for fn in filterMap.keys {
                 print("\(fn)")
-                for filterParams in filterParameterMap[fn]!.filterParameterValues.keys{
-                    print("     \(filterParams)  \(filterParameterMap[fn]!.filterParameterValues[filterParams])")
+                for filterParams in filterMap[fn]!.filterParameterValues.keys{
+                    if (filterParams == "inputImage"){
+                        print("     \(filterParams)")
+                    } else{
+                        print("     \(filterParams)  \(filterMap[fn]!.filterParameterValues[filterParams])")
+                    }
                 }
             }
             applyFilter()

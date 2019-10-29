@@ -143,7 +143,6 @@ extension FilterNavigator: UITableViewDelegate
                 CIFilter.localizedName(forFilterName: $0) ?? $0 < CIFilter.localizedName(forFilterName: $1) ?? $1
             }[(indexPath as NSIndexPath).row]
         }
-        print("\(filterName)")
         delegate?.filterNavigator(self, didSelectFilterName: filterName)
     }
     
