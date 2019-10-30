@@ -322,20 +322,32 @@ class FilterDetail: UIView
  
         queue.async
         {
-//            let startTime = CFAbsoluteTimeGetCurrent()
             
-            for (key, value) in self.filterMap[self.filterName!]!.filterParameterValues where currentFilter.inputKeys.contains(key)
-            {
-      //          print("\(key) \(value)")
-                currentFilter.setValue(value, forKey: key)
-            }
+            var outputImage : CIImage?
+            for (filterName, filterDataContainer) in self.filterMap {
+                print("\(filterName)")
+                for (filterParamKey, filterParamValue) in filterDataContainer.filterParameterValues where (filterDataContainer.filter?.inputKeys.contains(filterParamKey))!{
+                    print("    \(filterParamKey) \(filterParamValue)")
+                    
+                    if filterParamKey == "inputImage" {
+                        if let o  = outputImage {
+                            filterDataContainer.filter?.setValue(o, forKey: kCIInputImageKey)
+                        } else {
+                            filterDataContainer.filter?.setValue(filterParamValue, forKey: kCIInputImageKey)
+                        }
+                    } else{
+                        filterDataContainer.filter?.setValue(filterParamValue, forKey: filterParamKey)
+                    }
                         
-            let outputImage = currentFilter.outputImage!
+                }
+                outputImage = filterDataContainer.filter?.outputImage!
+            }
+
             let finalImage: CGImage
   
             let context = (currentFilter is MetalRenderable) ? self.ciMetalContext : self.ciOpenGLESContext
             
-            if outputImage.extent.width == 1 || outputImage.extent.height == 1
+            if outputImage!.extent.width == 1 || outputImage!.extent.height == 1
             {
                 // if a filter's output image height or width is 1,
                 // (e.g. a reduction filter) stretch to 640x640
@@ -349,7 +361,7 @@ class FilterDetail: UIView
                 finalImage = context.createCGImage(stretch.outputImage!,
                     from: self.rect640x640)!
             }
-            else if outputImage.extent.width < 640 || outputImage.extent.height < 640
+            else if outputImage!.extent.width < 640 || outputImage!.extent.height < 640
             {
                 // if a filter's output image is smaller than 640x640 (e.g. circular wrap or lenticular
                 // halo), composite the output over a black background)
@@ -362,12 +374,9 @@ class FilterDetail: UIView
             }
             else
             {
-                finalImage = context.createCGImage(outputImage,
+                finalImage = context.createCGImage(outputImage!,
                     from: self.rect640x640)!
             }
-            
-//            let endTime = (CFAbsoluteTimeGetCurrent() - startTime)
-//            print(self.filterName!, "execution time", endTime)
             
             DispatchQueue.main.async
             {
@@ -488,7 +497,6 @@ extension FilterDetail: UITableViewDataSource
                 filterParameterValues: filterMap[tb.filterName!]!.filterParameterValues)
         }
         
-        
         return cell
     }
     
@@ -507,16 +515,7 @@ extension FilterDetail: FilterInputItemRendererDelegate
         if let key = forKey, let value = didChangeValue
         {
             filterMap[filterInputItemRenderer.filterName!]!.filterParameterValues[key] = value
-            for fn in filterMap.keys {
-                print("\(fn)")
-                for filterParams in filterMap[fn]!.filterParameterValues.keys{
-                    if (filterParams == "inputImage"){
-                        print("     \(filterParams)")
-                    } else{
-                        print("     \(filterParams)  \(filterMap[fn]!.filterParameterValues[filterParams])")
-                    }
-                }
-            }
+     
             applyFilter()
         }
     }
