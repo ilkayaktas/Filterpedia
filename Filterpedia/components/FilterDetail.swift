@@ -212,6 +212,8 @@ class FilterDetail: UIView
     {
         filterMap[filterName!]!.filterParameterValues[kCIInputImageKey] = assets.first!.ciImage
         imageView.image = UIImage(ciImage: assets.first!.ciImage)
+        collectionView.filterList.removeAll()
+        collectionView.collectionView.reloadData()
     }
     
     @objc func pinCollectionView(){

@@ -41,6 +41,12 @@ class FilterAttributeView : UIView, UICollectionViewDelegate, UICollectionViewDa
             label.font = UIFont(name: "Futura", size: 18)
             label.backgroundColor = UIColor(hex: "C6C6C6")
             
+            let delete = UIButton()
+            delete.frame = CGRect(x: cell.frame.width - 30, y: 5, width: 20, height: 20)
+            delete.setImage(UIImage(named: "delete"), for: .normal)
+            delete.tag = indexPath.row
+            delete.addTarget(self, action: #selector(deleteFilter), for: .touchDown)
+
             tableView.frame = CGRect(x: 0, y: 30, width: cell.frame.width, height: cell.frame.height)
             
             tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
@@ -51,6 +57,7 @@ class FilterAttributeView : UIView, UICollectionViewDelegate, UICollectionViewDa
             cell.layer.cornerRadius = 15
 
             cell.addSubview(label)
+            cell.addSubview(delete)
             cell.addSubview(tableView)
 
         }
@@ -64,6 +71,11 @@ class FilterAttributeView : UIView, UICollectionViewDelegate, UICollectionViewDa
     
     func addFilterAttr(filterAttributesTableView: FilterAttributeTable){
         filterList.append(filterAttributesTableView)
+        collectionView.reloadData()
+    }
+    
+    @objc func deleteFilter(_ sender: UIButton) {
+        filterList.remove(at: sender.tag)
         collectionView.reloadData()
     }
 }
