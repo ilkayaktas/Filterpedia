@@ -210,7 +210,7 @@ class FilterDetail: UIView
     
     @objc func resetPicture()
     {
-        filterMap[filterName!]!.filterParameterValues[kCIInputImageKey] = assets.first!.ciImage
+        filterMap.removeAll()
         imageView.image = UIImage(ciImage: assets.first!.ciImage)
         collectionView.filterList.removeAll()
         collectionView.collectionView.reloadData()

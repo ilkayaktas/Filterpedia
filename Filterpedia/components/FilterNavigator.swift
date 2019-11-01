@@ -20,9 +20,13 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
 class FilterNavigator: UIView
 {
+    // Get the default Realm
+    let realm = try! Realm()
+
     let filterCategories =
     [
         CategoryCustomFilters,
@@ -64,7 +68,7 @@ class FilterNavigator: UIView
         tableView.register(UITableViewHeaderFooterView.self,
             forHeaderFooterViewReuseIdentifier: "HeaderRenderer")
         
-        tableView.register(UITableViewCell.self,
+        tableView.register(TableCell.self,
             forCellReuseIdentifier: "ItemRenderer")
    
         return tableView
@@ -96,6 +100,7 @@ class FilterNavigator: UIView
         
         addSubview(tableView)
         addSubview(segmentedControl)
+        
     }
 
     required init?(coder aDecoder: NSCoder)
@@ -122,6 +127,7 @@ class FilterNavigator: UIView
             width: frame.width,
             height: segmentedControlHeight)
     }
+    
 }
 
 
@@ -218,7 +224,7 @@ extension FilterNavigator: UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemRenderer",
-            for: indexPath) 
+        for: indexPath)
 
         let filterName: String
         
@@ -233,10 +239,65 @@ extension FilterNavigator: UITableViewDataSource
             }[(indexPath as NSIndexPath).row]
         }
         
-        cell.textLabel?.text = CIFilter.localizedName(forFilterName: filterName) ?? (CIFilter(name: filterName)?.attributes[kCIAttributeFilterDisplayName] as? String) ?? filterName
+        let fltrName = CIFilter.localizedName(forFilterName: filterName) ?? (CIFilter(name: filterName)?.attributes[kCIAttributeFilterDisplayName] as? String) ?? filterName
+        cell.textLabel?.text = fltrName
+        
+        
+        
+        if(isFavorite(name: fltrName)){
+            cell.imageView?.image = UIImage(named: "fav")
+        } else{
+            cell.imageView?.image = UIImage(named: "notfav")
+        }
+        cell.imageView?.isUserInteractionEnabled = true
+        cell.imageView?.tag = indexPath.row
+        
+        let tapGestureRecognizer = CustomTouch(target:self, action: #selector(onTapImage))
+        tapGestureRecognizer.filterName = fltrName
+        tapGestureRecognizer.numberOfTapsRequired = 1
+        cell.imageView?.addGestureRecognizer(tapGestureRecognizer)
         
         return cell
     }
+  
+    
+    @objc func onTapImage(_ sender: UITapGestureRecognizer) {
+        
+        let customTouch  = sender as! CustomTouch
+        let favorite = FavoriteFilter()
+        favorite.name = customTouch.filterName!
+        
+        print(customTouch.filterName!)
+        
+        if(isFavorite(name: customTouch.filterName!)){
+            let favoriteFilter = realm.objects(FavoriteFilter.self).filter("name = '\(customTouch.filterName!)'")
+            try! realm.write {
+                realm.delete(favoriteFilter)
+            }
+        } else{
+            // Persist your data easily
+            try! realm.write {
+                realm.add(favorite, update: .all)
+            }
+        }
+        
+        self.tableView.reloadData()
+    }
+    
+    func isFavorite(name : String) -> Bool{
+        let favoriteFilter = realm.objects(FavoriteFilter.self).filter("name = '\(name)'")
+        
+        if(favoriteFilter.count > 0){
+            return true
+        } else{
+            return false
+        }
+    }
+    
+    class CustomTouch : UITapGestureRecognizer{
+        var filterName : String?
+    }
+
 }
 
 // MARK: Filter Navigator Modes
@@ -254,3 +315,19 @@ protocol FilterNavigatorDelegate: class
     func filterNavigator(_ filterNavigator: FilterNavigator, didSelectFilterName: String)
 }
 
+class TableCell : UITableViewCell{
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.textLabel?.frame = CGRect(x: 50, y: 0, width: self.frame.width - 50, height: self.frame.height)
+        self.imageView?.frame = CGRect(x: 10, y: (self.frame.height - 25)/2, width: 25, height: 25)
+    }
+}
+
+class FavoriteFilter: Object {
+    @objc dynamic var name = ""
+    
+    override static func primaryKey() -> String? {
+        return "name"
+    }
+}

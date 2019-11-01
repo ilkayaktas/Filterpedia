@@ -9,5 +9,7 @@ target 'Filterpedia' do
   pod 'Hue'
   pod 'SwipeMenuViewController'
   pod 'Segmentio'
+  # Realm DB
+  pod 'RealmSwift'
 
 end
